@@ -29,9 +29,8 @@ public class Accueil extends javax.swing.JFrame {
         model.addColumn("Numéro");
         model.addColumn("Libellé");
         model.addColumn("Statut");
-        model.addColumn("Détail");
         for(Mission maMission : entreprise.getListeMissions()){
-            model.addRow(new String[]{maMission.getId(),maMission.getLibelle()});
+            model.addRow(new String[]{maMission.getId(),maMission.getLibelle(), maMission.colorStatut()});
         }   
         JTableMission.setModel(model);  
         this.setVisible(true);
@@ -69,17 +68,17 @@ public class Accueil extends javax.swing.JFrame {
 
         JTableMission.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Numéro", "Libellé", "Statut", "Détail"
+                "Numéro", "Libellé", "Statut"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -92,6 +91,9 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(JTableMission);
+        if (JTableMission.getColumnModel().getColumnCount() > 0) {
+            JTableMission.getColumnModel().getColumn(2).setPreferredWidth(2);
+        }
 
         jLabel1.setText("ANCIEN BOUTON AU CAS OU");
 

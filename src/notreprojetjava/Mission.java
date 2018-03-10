@@ -83,6 +83,10 @@ public class Mission implements IEntite {
     public void setNbMaxEmp(int nb){
         nbMaxEmp = nb;
     }
+    
+    public void setLibelle(String l){
+        libelle = l;
+    }
         
     // Méthodes
 
@@ -229,6 +233,23 @@ public class Mission implements IEntite {
             System.out.println("Attention, le nouveau salarié ne remplit pas les conditions de la mission.");
         }
     }
+    
+    /**
+     * Retourne un code html pour mettre la pastille en couleur selon le statut
+     * @param s
+     * @return 
+     */
+    public String colorStatut(){
+        String color = "";
+        switch(statut){
+            case 1 : color = "<html><font color = red >∙</font></html>"; break;
+            case 2 : color = "<html><font color = orange >∙</font></html>"; break; 
+            case 3 : color = "<html><font color = green >∙</font></html>"; break; 
+            case 4 : color = "<html><font color = black >∙</font></html>"; break; 
+        }
+        return color;
+    }
+    
     
     public void changeStatut(){
         switch (statut){
