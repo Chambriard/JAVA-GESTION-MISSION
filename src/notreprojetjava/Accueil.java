@@ -77,67 +77,14 @@ public class Accueil extends javax.swing.JFrame {
         }
         maListComp.recupCompetence();
         
-        //Instanciation CSVFileListePersonnel
-        CSVFileListePersonnel maListPerso = null;
-        try {
-            maListPerso = new CSVFileListePersonnel();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            maListPerso.recupEmployes();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //Instanciation CSVFileCompetecesPersonnel
-        CSVFileCompetencesPersonnel maListCompPerso = null;
-        try {
-            maListCompPerso = new CSVFileCompetencesPersonnel();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        maListCompPerso.recupCompetencesPersonnel(maListComp.getList(), maListPerso.getList());
-        
-        //Instanciation CSVFileListeMission
-        CSVFileListeMission maListMission = null;
-        try {
-            maListMission = new CSVFileListeMission();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            maListMission.recupMission();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //Instanciation CSVFileListeMissionPersonnel
-        CSVFileListeMissionPersonnel maListMissionPerso = null;
-        try {
-            maListMissionPerso = new CSVFileListeMissionPersonnel();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        maListMissionPerso.recupPeronnel(maListMission.getList(),maListPerso.getList());
-        
-        //Instanciation CSVFileListeMissionCompetences
-        CSVFileListeMissionCompetences maListMissionComp = null;
-        try {
-            maListMissionComp = new CSVFileListeMissionCompetences();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        maListMissionComp.recupCompRequise( maListMission.getList(), maListComp.getList());
        
         //Instanciation JFrame Mission 
         JMission frameMission = null;
         try {
-            frameMission = new JMission(maListMission.getList(),maListPerso.getList(),maListComp.getList());
+            frameMission = new JMission();
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
         }
 
