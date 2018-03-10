@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
+import static notreprojetjava.Accueil.entreprise;
 
 /**
  *
@@ -225,6 +226,11 @@ public class JDetailMission extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        lesEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lesEmpMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(lesEmp);
 
         ajoutEmp.setText("Ajouter >>");
@@ -666,6 +672,22 @@ public class JDetailMission extends javax.swing.JFrame {
             }
         }*/
     }//GEN-LAST:event_removeEmpActionPerformed
+
+    private void lesEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lesEmpMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            JDetailEmploye frameDetailEmploye = null ;
+            int Ligne = lesEmp.getSelectedRow();
+            int colonne = 0;
+            String idEmp = (String) lesEmp.getValueAt(Ligne, colonne);
+            Employe monEmp = entreprise.recupEmpById(idEmp);
+            frameDetailEmploye = new JDetailEmploye(entreprise, monEmp);
+            frameDetailEmploye.setVisible(true);
+              
+ 
+
+        }
+    }//GEN-LAST:event_lesEmpMouseClicked
 
     /**
      * @param args the command line arguments
