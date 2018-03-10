@@ -696,6 +696,24 @@ public class JDetailMission extends javax.swing.JFrame {
         }*/
     }//GEN-LAST:event_removeEmpActionPerformed
 
+    private void BTNSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSaveActionPerformed
+        maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
+        maMission.setLibelle(TFMLibelle.getText());
+        if(showConfirmDialog(null, "Êtes-vous certain de vouloir sauvegarder les informations ?", "", OK_CANCEL_OPTION) == 0){                
+            try {
+                entreprise.saveMiss();
+                showMessageDialog(null, "Sauvegarde de la mission correctement effectuée !", "", INFORMATION_MESSAGE);
+                this.dispose();
+            } catch (IOException ex) {
+                Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_BTNSaveActionPerformed
+
+    private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_BTNRetourActionPerformed
+
     /**
      * @param args the command line arguments
      */
