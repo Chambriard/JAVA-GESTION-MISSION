@@ -559,6 +559,7 @@ public class JDetailMission extends javax.swing.JFrame {
             
             }
             compMission.setModel(modelCompMission);
+            entreprise.generateStatut(maMission);
         }
         else
         {
@@ -626,7 +627,7 @@ public class JDetailMission extends javax.swing.JFrame {
                 entreprise.addCompMiss(maMission, uneComp, nbRequisI);
             }
         }
-        
+        entreprise.generateStatut(maMission);
         
     }//GEN-LAST:event_ajouterCompActionPerformed
 
@@ -669,6 +670,7 @@ public class JDetailMission extends javax.swing.JFrame {
             
             }
             compMission.setModel(modelCompMission);
+            entreprise.generateStatut(maMission);
         /*for(Employe unEmp : entreprise.getListeEmployes() ){
             if(unEmp.getId().equals(id)){
                 maMission.equipe.remove(unEmp);

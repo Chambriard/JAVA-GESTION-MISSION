@@ -40,6 +40,7 @@ public class Mission implements IEntite {
         compRemp = new HashMap<Competence, Integer>();
         compReq = new HashMap<Competence, Integer>();
         equipe = new ArrayList<Employe>();
+        this.statut = statut;
         //this.statut = generateStatut();
     }
     
