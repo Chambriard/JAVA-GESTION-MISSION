@@ -23,17 +23,13 @@ public class JMission extends javax.swing.JFrame {
     /**
      * Creates new form JMission
      */
-    static ArrayList<Mission> maListeMission ;
-    static ArrayList<Employe> listeEmploye ;
-    static ArrayList<Competence> listeCompetence ;
-   
+    
+    static Entreprise entreprise;
     
     public JMission() throws FileNotFoundException, ParseException {
         initComponents();
-        Entreprise entreprise = new Entreprise();
-        this.maListeMission = entreprise.getListeMissions(); 
-        this.listeCompetence = entreprise.getListeCompetences() ;
-        this.listeEmploye = entreprise.getListeEmployes();
+        
+        entreprise = new Entreprise();
         //définition du model d'un jtable, je récpère les infos des mission que je met dans ce model
         //puis j'instancie mon jtable avec ce model 
         DefaultTableModel model = new DefaultTableModel();
@@ -41,7 +37,7 @@ public class JMission extends javax.swing.JFrame {
         model.addColumn("Libellé");
         model.addColumn("Statut");
         model.addColumn("Détail");
-        for(Mission maMission : this.maListeMission){
+        for(Mission maMission : entreprise.getListeMissions()){
             model.addRow(new String[]{maMission.getId(),maMission.getLibelle()});
         }   
         JTableMission.setModel(model);  
@@ -122,9 +118,11 @@ public class JMission extends javax.swing.JFrame {
             int Ligne = JTableMission.getSelectedRow();
             int colonne = 0;
             String codeMiss = (String) JTableMission.getValueAt(Ligne, colonne);
-            for(Mission maMission : maListeMission){
+            //frameDetailMission = new JDetailMission(entreprise, entreprise.recupMissById(codeMiss));
+            //frameDetailMission.setVisible(true);
+            for(Mission maMission : entreprise.getListeMissions()){
                 if(maMission.getId().equals(codeMiss)){
-                    frameDetailMission = new JDetailMission(maMission,listeEmploye,listeCompetence);
+                    frameDetailMission = new JDetailMission(entreprise, maMission);
                     frameDetailMission.setVisible(true);
                 }
             }

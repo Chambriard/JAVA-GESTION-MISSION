@@ -154,12 +154,19 @@ public class Mission implements IEntite {
         }
     }
     
+    public boolean eqComplete(){
+        if(equipe.size() < nbMaxEmp)
+            return true;
+        else
+            return false;
+    }
+    
     /**
      * Ajoute un employé à la mission
      * @param e 
      */
     public void addEmpMiss(Employe e){
-        if(equipe.size() < nbMaxEmp){
+
             equipe.add(e);
             int nb;
             // On désincrémente de 1 chaque compétence de la mission que l'employé dispose.
@@ -170,10 +177,7 @@ public class Mission implements IEntite {
                     compReq.put(c, nb);
                 }
             }
-            //System.out.println("Employé affecté à la mission.");
-        }
-        else
-            System.out.println("Le nombre maximal d'employés est atteint pour cette mission.");
+           
     }
     
     /**

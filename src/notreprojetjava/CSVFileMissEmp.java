@@ -91,8 +91,10 @@ public class CSVFileMissEmp extends CSVFile {
             
             int i = 1;
             while(i < chaineDecoupe.length){
-                m.addEmpMiss(recupEmpById(chaineDecoupe[i], listeEmployes));
-                i++;
+                if(m.eqComplete()){
+                    m.addEmpMiss(recupEmpById(chaineDecoupe[i], listeEmployes));
+                    i++;
+                }
             }
             
         }

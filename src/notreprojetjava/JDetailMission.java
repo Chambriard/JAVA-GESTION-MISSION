@@ -27,18 +27,14 @@ public class JDetailMission extends javax.swing.JFrame {
      * Creates new form JDetailMission
      */
     static Mission maMission ;
-    static ArrayList<Employe> lesEmployes ;
-    static ArrayList<Competence> lesCompetences ;
+    static Entreprise entreprise;
     
-    
-    public JDetailMission(Mission uneMission,ArrayList<Employe> lesEmployes,ArrayList<Competence> lesComp) {
+    public JDetailMission(Entreprise entreprise, Mission m) {
         initComponents();
+        this.entreprise = entreprise;
+        this.maMission = m;
         
-        this.lesEmployes = lesEmployes;
-        this.lesCompetences = lesComp;
-        this.maMission = uneMission;
-        
-        id.setText(uneMission.getId());
+        id.setText(m.getId());
         id.setEditable(false);
         
         //DATE :
@@ -58,7 +54,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelEmp.addColumn("id");
         modelEmp.addColumn("Nom");
         modelEmp.addColumn("Prenom");
-        for(Employe monEmpDuCSVFile : lesEmployes){
+        for(Employe monEmpDuCSVFile : entreprise.getListeEmployes()){
             boolean missione = false ;
             Iterator<Employe>  monEmpDeLaMission  = maMission.equipe.iterator();
             while(monEmpDeLaMission.hasNext() && !missione){
@@ -105,7 +101,7 @@ public class JDetailMission extends javax.swing.JFrame {
         DefaultTableModel modelLesComp = new DefaultTableModel();
         modelLesComp.addColumn("id");
         modelLesComp.addColumn("libelle");
-        for(Competence maCompetencesCSV : lesCompetences){
+        for(Competence maCompetencesCSV : entreprise.getListeCompetences()){
             boolean missione = false ;
             for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
                 Competence key = entry.getKey();
@@ -418,38 +414,61 @@ public class JDetailMission extends javax.swing.JFrame {
         String nom = (String) lesEmp.getValueAt(ligne, colonneNom);
         String prenom = (String) lesEmp.getValueAt(ligne, colonnePrenom);
  
-        DefaultTableModel modelLesEmpDeLaMission =(DefaultTableModel)  lesEmpDeLaMiss.getModel();
-        modelLesEmpDeLaMission.addRow(new Object[]{id,nom,prenom});
-        lesEmpDeLaMiss.setModel(modelLesEmpDeLaMission);
-        //Enlève l'employé das Jtable lesEmp
-        DefaultTableModel modelLesEmp =(DefaultTableModel)  lesEmp.getModel();
-        modelLesEmp.removeRow(ligne);
-        lesEmp.setModel(modelLesEmp);
+        if(maMission.eqComplete()){
+            System.out.println(maMission.getCompReq());
+            Employe e = entreprise.recupEmpById(id);
+            entreprise.addEmpMiss(maMission, e);
+            System.out.println(maMission.getEquipe());
+            System.out.println(maMission.getCompReq());
+            
+            DefaultTableModel modelLesEmpDeLaMission =(DefaultTableModel)  lesEmpDeLaMiss.getModel();
+            modelLesEmpDeLaMission.addRow(new Object[]{id,nom,prenom});
+            lesEmpDeLaMiss.setModel(modelLesEmpDeLaMission);
+            //Enlève l'employé das Jtable lesEmp
+            DefaultTableModel modelLesEmp =(DefaultTableModel)  lesEmp.getModel();
+            modelLesEmp.removeRow(ligne);
+            lesEmp.setModel(modelLesEmp);
+            
+            DefaultTableModel modelCompMission = new DefaultTableModel();
+            modelCompMission.addColumn("id");
+            modelCompMission.addColumn("libelle");
+            modelCompMission.addColumn("Requis");
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+                Competence key = entry.getKey();
+                Integer value = entry.getValue();
+
+                modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+            
+            }
+            compMission.setModel(modelCompMission);
+        }
+        
         
         //Ajoute l'employé dans la liste d'employé de la mission et réduir le requis de jtable compMission
+        
         DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
-        for(Employe unEmp : lesEmployes ){
-            if(unEmp.getId().equals(id)){
-                maMission.equipe.add(unEmp);
-                for(int i=0; i<compMission.getRowCount();i++){
-                    String idCom = (String) compMission.getValueAt(i, 0);
-                    String libelle = (String) compMission.getValueAt(i, 1);
-                    String nbRequisS = (String) compMission.getValueAt(i, 2);
-                    Integer nbRequisI = Integer.parseInt(nbRequisS);
-                    for(Competence uneComp : unEmp.getCompetences()){
-                        if(uneComp.getId().equals(idCom)){
-                            nbRequisI = nbRequisI - 1 ;
-                            modelComMission.removeRow(i);
-                            if(nbRequisI > 0){
-                                modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
-                                compMission.setModel(modelComMission);
-                            }
-                            
-                        }
-                    }
-                }
-            }
-        }
+//        for(Employe unEmp : entreprise.getListeEmployes() ){
+//            if(unEmp.getId().equals(id)){
+//                maMission.equipe.add(unEmp);
+//                for(int i=0; i<compMission.getRowCount();i++){
+//                    String idCom = (String) compMission.getValueAt(i, 0);
+//                    String libelle = (String) compMission.getValueAt(i, 1);
+//                    String nbRequisS = (String) compMission.getValueAt(i, 2);
+//                    Integer nbRequisI = Integer.parseInt(nbRequisS);
+//                    for(Competence uneComp : unEmp.getCompetences()){
+//                        if(uneComp.getId().equals(idCom)){
+//                            nbRequisI = nbRequisI - 1 ;
+//                            modelComMission.removeRow(i);
+//                            if(nbRequisI > 0){
+//                                modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
+//                                compMission.setModel(modelComMission);
+//                            }
+//                            
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }//GEN-LAST:event_ajoutEmpActionPerformed
 
     private void ajouterCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterCompActionPerformed
@@ -460,8 +479,9 @@ public class JDetailMission extends javax.swing.JFrame {
         Integer nbRequisI = 0 ;
         String id = (String) jtableLesCompetences.getValueAt(ligne, colonneId);
         String nomFra = (String) jtableLesCompetences.getValueAt(ligne, colonneNomFra);
-        String nbRequis = TFRequis.getText();
+        String nbRequis = (String)TFRequis.getText();
         nbRequisI = Integer.parseInt(nbRequis);
+        
         if (!TFRequis.getText().isEmpty()){
             
             DefaultTableModel modelLesCompMission =(DefaultTableModel)  compMission.getModel();
@@ -479,9 +499,9 @@ public class JDetailMission extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "veuillez reéssayer l'ajout!", "Message d'erreur", JOptionPane.INFORMATION_MESSAGE);
         }     
        
-        for(Competence uneComp : lesCompetences ){
+        for(Competence uneComp : entreprise.getListeCompetences() ){
             if(uneComp.getId().equals(id)){
-                maMission.compReq.put(uneComp, nbRequisI);
+                entreprise.addCompMiss(maMission, uneComp, nbRequisI);
             }
         }
         
@@ -506,9 +526,28 @@ public class JDetailMission extends javax.swing.JFrame {
         modelLesEmpMission.removeRow(ligne);
         lesEmpDeLaMiss.setModel(modelLesEmpMission);
         
+        System.out.println(maMission.getCompReq());
+        Employe e = entreprise.recupEmpById(id);
+        entreprise.delEmpMiss(maMission, e);
+        System.out.println(maMission.getEquipe());
+        System.out.println(maMission.getCompReq());
+        
+        
         //Retirer employé des liste et rajouter compétence
-        DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
-        for(Employe unEmp : lesEmployes ){
+     
+        DefaultTableModel modelCompMission = new DefaultTableModel();
+            modelCompMission.addColumn("id");
+            modelCompMission.addColumn("libelle");
+            modelCompMission.addColumn("Requis");
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+                Competence key = entry.getKey();
+                Integer value = entry.getValue();
+
+                modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+            
+            }
+            compMission.setModel(modelCompMission);
+        /*for(Employe unEmp : entreprise.getListeEmployes() ){
             if(unEmp.getId().equals(id)){
                 maMission.equipe.remove(unEmp);
                 //PROBLEME
@@ -521,7 +560,7 @@ public class JDetailMission extends javax.swing.JFrame {
                     System.out.println(libelle);
                     System.out.println(nbRequisS);
                     //System.out.println(unEmp.toString());
-                    for(Competence uneComp : unEmp.getCompetences()){
+                    /*for(Competence uneComp : unEmp.getCompetences()){
                         if(uneComp.getId().equals(idCom)){
                             nbRequisI = nbRequisI + 1 ;
                             modelComMission.removeRow(i);
@@ -530,9 +569,10 @@ public class JDetailMission extends javax.swing.JFrame {
                             nbRequisI = 0 ;
                         }
                     }
+                    modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
                 }
             }
-        }
+        }*/
     }//GEN-LAST:event_removeEmpActionPerformed
 
     /**
