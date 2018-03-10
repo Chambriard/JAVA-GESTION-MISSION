@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +20,21 @@ public class Accueil extends javax.swing.JFrame {
     /**
      * Creates new form Accueil
      */
-    public Accueil() {
+    static Entreprise entreprise;
+    public Accueil() throws FileNotFoundException, ParseException {
         initComponents();
+        entreprise = new Entreprise();
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Numéro");
+        model.addColumn("Libellé");
+        model.addColumn("Statut");
+        model.addColumn("Détail");
+        for(Mission maMission : entreprise.getListeMissions()){
+            model.addRow(new String[]{maMission.getId(),maMission.getLibelle()});
+        }   
+        JTableMission.setModel(model);  
+        this.setVisible(true);
     }
 
     /**
@@ -33,6 +47,16 @@ public class Accueil extends javax.swing.JFrame {
     private void initComponents() {
 
         GesionMission = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        JTableMission = new javax.swing.JTable(){
+            public boolean isCellEditable(int d, int c){
+                return false;
+            }
+        };
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,21 +67,91 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        JTableMission.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Numéro", "Libellé", "Statut", "Détail"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        JTableMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                JTableMissionMousePressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(JTableMission);
+
+        jLabel1.setText("ANCIEN BOUTON AU CAS OU");
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
+        jLabel2.setText("GESTION DE L'ENTREPRISE");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setText("Accueil");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setText("* Cliquez sur une mission pour accéder aux détails");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(330, Short.MAX_VALUE)
-                .addComponent(GesionMission, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(151, 151, 151))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(GesionMission, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(143, 143, 143))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(359, 359, 359)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(197, Short.MAX_VALUE)
-                .addComponent(GesionMission, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(169, 169, 169))
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(GesionMission)
+                .addGap(12, 12, 12))
         );
 
         pack();
@@ -93,6 +187,25 @@ public class Accueil extends javax.swing.JFrame {
        
     }//GEN-LAST:event_GesionMissionMouseClicked
 
+    private void JTableMissionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTableMissionMousePressed
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            JDetailMission frameDetailMission = null ;
+            int Ligne = JTableMission.getSelectedRow();
+            int colonne = 0;
+            String codeMiss = (String) JTableMission.getValueAt(Ligne, colonne);
+            //frameDetailMission = new JDetailMission(entreprise, entreprise.recupMissById(codeMiss));
+            //frameDetailMission.setVisible(true);
+            for(Mission maMission : entreprise.getListeMissions()){
+                if(maMission.getId().equals(codeMiss)){
+                    frameDetailMission = new JDetailMission(entreprise, maMission);
+                    frameDetailMission.setVisible(true);
+                }
+            }
+
+        }
+    }//GEN-LAST:event_JTableMissionMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -123,12 +236,24 @@ public class Accueil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Accueil().setVisible(true);
+                try {
+                    new Accueil().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GesionMission;
+    private javax.swing.JTable JTableMission;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
