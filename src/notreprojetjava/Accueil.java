@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +26,9 @@ public class Accueil extends javax.swing.JFrame {
         initComponents();
         entreprise = new Entreprise();
         
+        TPane.setTitleAt(0, "Gestion des Missions");
+        TPane.setTitleAt(1, "Gestion des Employés");
+        
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Numéro");
         model.addColumn("Libellé");
@@ -32,7 +36,17 @@ public class Accueil extends javax.swing.JFrame {
         for(Mission maMission : entreprise.getListeMissions()){
             model.addRow(new String[]{maMission.getId(),maMission.getLibelle(), maMission.colorStatut()});
         }   
-        JTableMission.setModel(model);  
+        JTableMission.setModel(model);
+        
+        DefaultTableModel modelEmp = new DefaultTableModel();
+        modelEmp.addColumn("Numéro");
+        modelEmp.addColumn("Prénom");
+        modelEmp.addColumn("Nom");
+        for(Employe e : entreprise.getListeEmployes()){
+            modelEmp.addRow(new String[]{e.getId(),e.getPrenom(), e.getNom()});
+        }   
+        jTableEmp.setModel(modelEmp);  
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -45,26 +59,31 @@ public class Accueil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        GesionMission = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        TPane = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         JTableMission = new javax.swing.JTable(){
             public boolean isCellEditable(int d, int c){
                 return false;
             }
         };
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableEmp = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        GesionMission.setText("Gestion Mission");
-        GesionMission.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GesionMissionMouseClicked(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
+        jLabel2.setText("GESTION DE L'ENTREPRISE");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setText("Accueil");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setText("* Cliquez sur une mission ou un employé pour accéder aux détails correspondants");
+
+        TPane.setToolTipText("");
 
         JTableMission.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,99 +114,68 @@ public class Accueil extends javax.swing.JFrame {
             JTableMission.getColumnModel().getColumn(2).setPreferredWidth(2);
         }
 
-        jLabel1.setText("ANCIEN BOUTON AU CAS OU");
+        TPane.addTab("tab1", jScrollPane2);
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
-        jLabel2.setText("GESTION DE L'ENTREPRISE");
+        jTableEmp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableEmpMousePressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableEmp);
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setText("Accueil");
-
-        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel4.setText("* Cliquez sur une mission pour accéder aux détails");
+        TPane.addTab("tab2", jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(230, 230, 230)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(66, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(GesionMission, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)))
-                        .addContainerGap())
+                        .addComponent(jLabel3)
+                        .addGap(462, 462, 462))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(143, 143, 143))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(359, 359, 359)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 27, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel4))
+                            .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 827, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(69, 69, 69))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(7, 7, 7)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(GesionMission)
-                .addGap(12, 12, 12))
+                .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
+
+        TPane.getAccessibleContext().setAccessibleName("Missions");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void GesionMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GesionMissionMouseClicked
-        // TODO add your handling code here:
-        //REPRENDRE ICI RECUP DES INFO DANS L'ACCUEIL 
-        //Instanciation des données présentent dans la doc CSV
-        
-        //Instanciation de CSVFileListeCompetences
-        CSVFileListeCompetences maListComp = null;
-        try {
-            maListComp = new CSVFileListeCompetences();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        maListComp.recupCompetence();
-        
-       
-        //Instanciation JFrame Mission 
-        JMission frameMission = null;
-        try {
-            frameMission = new JMission();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        frameMission.setVisible(true);
-        //problèmatique faire passer maListeMission dans JMission
-       
-    }//GEN-LAST:event_GesionMissionMouseClicked
 
     private void JTableMissionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTableMissionMousePressed
         // TODO add your handling code here:
@@ -200,7 +188,8 @@ public class Accueil extends javax.swing.JFrame {
             //frameDetailMission.setVisible(true);
             for(Mission maMission : entreprise.getListeMissions()){
                 if(maMission.getId().equals(codeMiss)){
-                    frameDetailMission = new JDetailMission(entreprise, maMission);
+                    frameDetailMission = new JDetailMission(entreprise, maMission); 
+                    frameDetailMission.setLocationRelativeTo(null);
                     frameDetailMission.setVisible(true);
                 }
             }
@@ -208,6 +197,26 @@ public class Accueil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_JTableMissionMousePressed
 
+    private void jTableEmpMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEmpMousePressed
+        if(evt.getClickCount() == 2){
+            JDetailEmploye frameDetailEmploye = null ;
+            int Ligne = jTableEmp.getSelectedRow();
+            int colonne = 0;
+            String codeEmp = (String) jTableEmp.getValueAt(Ligne, colonne);
+            //frameDetailMission = new JDetailMission(entreprise, entreprise.recupMissById(codeMiss));
+            //frameDetailMission.setVisible(true);
+            for(Employe e : entreprise.getListeEmployes()){
+                if(e.getId().equals(codeEmp)){
+                    frameDetailEmploye = new JDetailEmploye(entreprise, e);
+                    frameDetailEmploye.setLocationRelativeTo(null);
+                    frameDetailEmploye.setVisible(true);
+                }
+            }
+
+        }
+    }//GEN-LAST:event_jTableEmpMousePressed
+
+ 
     /**
      * @param args the command line arguments
      */
@@ -250,12 +259,13 @@ public class Accueil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton GesionMission;
     private javax.swing.JTable JTableMission;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTabbedPane TPane;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTableEmp;
     // End of variables declaration//GEN-END:variables
 }

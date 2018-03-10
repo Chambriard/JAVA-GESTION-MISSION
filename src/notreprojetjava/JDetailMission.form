@@ -492,6 +492,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="BTNSave">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="84" green="cc" red="84" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Sauvegarder"/>
       </Properties>
       <Events>
@@ -500,6 +503,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="BTNRetour">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="83" green="83" red="ef" type="rgb"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Retour"/>
       </Properties>
       <Events>

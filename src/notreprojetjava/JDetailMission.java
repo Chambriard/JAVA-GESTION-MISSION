@@ -323,6 +323,7 @@ public class JDetailMission extends javax.swing.JFrame {
 
         LBLStatut.setText("jLabel17");
 
+        BTNSave.setBackground(new java.awt.Color(132, 204, 132));
         BTNSave.setText("Sauvegarder");
         BTNSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,6 +331,7 @@ public class JDetailMission extends javax.swing.JFrame {
             }
         });
 
+        BTNRetour.setBackground(new java.awt.Color(239, 131, 131));
         BTNRetour.setText("Retour");
         BTNRetour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -483,8 +485,7 @@ public class JDetailMission extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(ajoutEmp)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removeEmp)
-                                .addGap(95, 95, 95))
+                                .addComponent(removeEmp))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
