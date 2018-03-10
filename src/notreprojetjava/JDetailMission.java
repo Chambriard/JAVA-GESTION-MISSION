@@ -29,6 +29,8 @@ public class JDetailMission extends javax.swing.JFrame {
     static Mission maMission ;
     static ArrayList<Employe> lesEmployes ;
     static ArrayList<Competence> lesCompetences ;
+    
+    
     public JDetailMission(Mission uneMission,ArrayList<Employe> lesEmployes,ArrayList<Competence> lesComp) {
         initComponents();
         
@@ -58,7 +60,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelEmp.addColumn("Prenom");
         for(Employe monEmpDuCSVFile : lesEmployes){
             boolean missione = false ;
-            Iterator<Employe>  monEmpDeLaMission  = maMission.equipeMission.iterator();
+            Iterator<Employe>  monEmpDeLaMission  = maMission.equipe.iterator();
             while(monEmpDeLaMission.hasNext() && !missione){
                 if(monEmpDuCSVFile.getId().equals(monEmpDeLaMission.next().getId())){
                     missione = true;
@@ -74,7 +76,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelEmpMiss.addColumn("id");
         modelEmpMiss.addColumn("Nom");
         modelEmpMiss.addColumn("Prenom");
-        for(Employe monEmp : maMission.equipeMission){
+        for(Employe monEmp : maMission.equipe){
             modelEmpMiss.addRow(new String[]{monEmp.getId(), monEmp.getNom(),monEmp.getPrenom()});
         }
         
@@ -84,10 +86,10 @@ public class JDetailMission extends javax.swing.JFrame {
         modelCompMission.addColumn("id");
         modelCompMission.addColumn("libelle");
         modelCompMission.addColumn("Requis");
-        for(HashMap.Entry<Competence,Integer> entry : maMission.CompReq.entrySet()){
+        for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
             Competence key = entry.getKey();
             Integer value = entry.getValue();
-            for(Employe monEmp : maMission.equipeMission){
+            for(Employe monEmp : maMission.equipe){
                 if(monEmp.getCompetences().contains(key)){
                     value = value - 1 ;
                 }
@@ -95,7 +97,7 @@ public class JDetailMission extends javax.swing.JFrame {
             if(value < 1){
                 value = 0 ;
             }
-            modelCompMission.addRow(new String[]{key.getId(), key.getNomFra(),value.toString()});
+            modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
             
         }
         compMission.setModel(modelCompMission);
@@ -105,7 +107,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelLesComp.addColumn("libelle");
         for(Competence maCompetencesCSV : lesCompetences){
             boolean missione = false ;
-            for(HashMap.Entry<Competence,Integer> entry : maMission.CompReq.entrySet()){
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
                 Competence key = entry.getKey();
                 Integer value = entry.getValue();
                 if(key.getId().equals(maCompetencesCSV.getId())){
@@ -113,7 +115,7 @@ public class JDetailMission extends javax.swing.JFrame {
                 }
              }
             if(!missione){
-                modelLesComp.addRow(new String[]{maCompetencesCSV.getId(), maCompetencesCSV.getNomFra()});
+                modelLesComp.addRow(new String[]{maCompetencesCSV.getId(), maCompetencesCSV.getLibelleFR()});
             }
         }
         jtableLesCompetences.setModel(modelLesComp);
@@ -428,7 +430,7 @@ public class JDetailMission extends javax.swing.JFrame {
         DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
         for(Employe unEmp : lesEmployes ){
             if(unEmp.getId().equals(id)){
-                maMission.equipeMission.add(unEmp);
+                maMission.equipe.add(unEmp);
                 for(int i=0; i<compMission.getRowCount();i++){
                     String idCom = (String) compMission.getValueAt(i, 0);
                     String libelle = (String) compMission.getValueAt(i, 1);
@@ -479,7 +481,7 @@ public class JDetailMission extends javax.swing.JFrame {
        
         for(Competence uneComp : lesCompetences ){
             if(uneComp.getId().equals(id)){
-                maMission.CompReq.put(uneComp, nbRequisI);
+                maMission.compReq.put(uneComp, nbRequisI);
             }
         }
         
@@ -508,7 +510,7 @@ public class JDetailMission extends javax.swing.JFrame {
         DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
         for(Employe unEmp : lesEmployes ){
             if(unEmp.getId().equals(id)){
-                maMission.equipeMission.remove(unEmp);
+                maMission.equipe.remove(unEmp);
                 //PROBLEME
                 for(int i=0; i<compMission.getRowCount();i++){
                     String idCom = (String) compMission.getValueAt(i, 0);

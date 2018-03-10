@@ -6,6 +6,7 @@
 package notreprojetjava;
 
 import java.io.FileNotFoundException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,11 +27,13 @@ public class JMission extends javax.swing.JFrame {
     static ArrayList<Employe> listeEmploye ;
     static ArrayList<Competence> listeCompetence ;
    
-    public JMission(ArrayList<Mission> maListeMission,ArrayList<Employe> listeEmploye,ArrayList<Competence> listeCompetence  ) throws FileNotFoundException {
+    
+    public JMission() throws FileNotFoundException, ParseException {
         initComponents();
-        this.maListeMission = maListeMission ; 
-        this.listeCompetence = listeCompetence ;
-        this.listeEmploye = listeEmploye ;
+        Entreprise entreprise = new Entreprise();
+        this.maListeMission = entreprise.getListeMissions(); 
+        this.listeCompetence = entreprise.getListeCompetences() ;
+        this.listeEmploye = entreprise.getListeEmployes();
         //définition du model d'un jtable, je récpère les infos des mission que je met dans ce model
         //puis j'instancie mon jtable avec ce model 
         DefaultTableModel model = new DefaultTableModel();
@@ -42,6 +45,7 @@ public class JMission extends javax.swing.JFrame {
             model.addRow(new String[]{maMission.getId(),maMission.getLibelle()});
         }   
         JTableMission.setModel(model);  
+        this.setVisible(true);
     }
 
     /**
