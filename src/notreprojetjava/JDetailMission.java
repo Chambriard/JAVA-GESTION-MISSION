@@ -696,6 +696,19 @@ public class JDetailMission extends javax.swing.JFrame {
         }*/
     }//GEN-LAST:event_removeEmpActionPerformed
 
+    private void lesEmpMouseClicked(java.awt.event.MouseEvent evt) {                                    
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            JDetailEmploye frameDetailEmploye = null ;
+            int Ligne = lesEmp.getSelectedRow();
+            int colonne = 0;
+            String idEmp = (String) lesEmp.getValueAt(Ligne, colonne);
+            Employe monEmp = entreprise.recupEmpById(idEmp);
+            frameDetailEmploye = new JDetailEmploye(entreprise, monEmp);
+            frameDetailEmploye.setVisible(true);
+        }
+    }
+    
     private void BTNSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSaveActionPerformed
         maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
         maMission.setLibelle(TFMLibelle.getText());
