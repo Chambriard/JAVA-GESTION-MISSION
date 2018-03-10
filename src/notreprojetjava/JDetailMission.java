@@ -102,7 +102,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelCompMission.addColumn("id");
         modelCompMission.addColumn("libelle");
         modelCompMission.addColumn("Requis");
-        for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+        for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
             Competence key = entry.getKey();
             Integer value = entry.getValue();
             for(Employe monEmp : maMission.equipe){
@@ -123,7 +123,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelLesComp.addColumn("libelle");
         for(Competence maCompetencesCSV : entreprise.getListeCompetences()){
             boolean missione = false ;
-            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
                 Competence key = entry.getKey();
                 Integer value = entry.getValue();
                 if(key.getId().equals(maCompetencesCSV.getId())){
@@ -532,12 +532,12 @@ public class JDetailMission extends javax.swing.JFrame {
         String nom = (String) lesEmp.getValueAt(ligne, colonneNom);
         String prenom = (String) lesEmp.getValueAt(ligne, colonnePrenom);
  
-        if(maMission.eqComplete()){
-            System.out.println(maMission.getCompReq());
+        if(maMission.eqNotComplete()){
+            System.out.println(maMission.getCompRemp());
             Employe e = entreprise.recupEmpById(id);
             entreprise.addEmpMiss(maMission, e);
             System.out.println(maMission.getEquipe());
-            System.out.println(maMission.getCompReq());
+            System.out.println(maMission.getCompRemp());
             
             DefaultTableModel modelLesEmpDeLaMission =(DefaultTableModel)  lesEmpDeLaMiss.getModel();
             modelLesEmpDeLaMission.addRow(new Object[]{id,nom,prenom});
@@ -551,7 +551,7 @@ public class JDetailMission extends javax.swing.JFrame {
             modelCompMission.addColumn("id");
             modelCompMission.addColumn("libelle");
             modelCompMission.addColumn("Requis");
-            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
                 Competence key = entry.getKey();
                 Integer value = entry.getValue();
 
@@ -648,11 +648,11 @@ public class JDetailMission extends javax.swing.JFrame {
         modelLesEmpMission.removeRow(ligne);
         lesEmpDeLaMiss.setModel(modelLesEmpMission);
         
-        System.out.println(maMission.getCompReq());
+        System.out.println(maMission.getCompRemp());
         Employe e = entreprise.recupEmpById(id);
         entreprise.delEmpMiss(maMission, e);
         System.out.println(maMission.getEquipe());
-        System.out.println(maMission.getCompReq());
+        System.out.println(maMission.getCompRemp());
         
         
         //Retirer employé des liste et rajouter compétence
@@ -661,7 +661,7 @@ public class JDetailMission extends javax.swing.JFrame {
             modelCompMission.addColumn("id");
             modelCompMission.addColumn("libelle");
             modelCompMission.addColumn("Requis");
-            for(HashMap.Entry<Competence,Integer> entry : maMission.compReq.entrySet()){
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
                 Competence key = entry.getKey();
                 Integer value = entry.getValue();
 

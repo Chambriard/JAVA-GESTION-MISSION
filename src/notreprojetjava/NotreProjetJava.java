@@ -26,7 +26,7 @@ public class NotreProjetJava {
         
         Competence c = entreprise.recupCompById("A.1.");
         Mission m = entreprise.recupMissById("M8");
-        //m.checkCompReq();
+        //m.checkCompRemp();
         
         DateConvert d = new DateConvert();
         System.out.println(d.currentDate());

@@ -92,6 +92,7 @@ public class CSVFileMissComp extends CSVFile{
             
             int i = 1;
             while(i < chaineDecoupe.length){
+                m.getCompRemp().put(recupCompById(chaineDecoupe[i], listeCompetences), Integer.parseInt(chaineDecoupe[i + 1]));
                 m.getCompReq().put(recupCompById(chaineDecoupe[i], listeCompetences), Integer.parseInt(chaineDecoupe[i + 1]));
                 i = i + 2;
             }

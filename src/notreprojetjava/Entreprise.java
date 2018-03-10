@@ -49,6 +49,7 @@ public class Entreprise {
         CSVFMC.recupMissComp(listeCompetences, listeMissions);
         CSVFME = new CSVFileMissEmp();
         CSVFME.recupMissEmp(listeEmployes, listeMissions);
+        generateStatut();
     }
     
     // Accesseurs
@@ -193,6 +194,13 @@ public class Entreprise {
             i++;
         }
         return res;
+    }
+    
+    public void generateStatut(){
+        for(Mission m : listeMissions){
+            m.generateStatut();
+            System.out.print(m.getStatut());
+        }
     }
     
     /**

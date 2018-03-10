@@ -24,6 +24,7 @@ public class Mission implements IEntite {
     private Date dateDeb;
     private Date dateFin;
     private int statut;
+    HashMap<Competence, Integer> compRemp;
     HashMap<Competence, Integer> compReq;
     ArrayList<Employe> equipe;
     
@@ -31,13 +32,15 @@ public class Mission implements IEntite {
     public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin, int statut) throws ParseException{
         this.id = id;
         this.libelle = libelle;
-        this.statut = statut;
         DateConvert dc = new DateConvert();
         this.dateDeb = dc.convertStrDate(dateDeb);
         this.dateFin = dc.convertStrDate(dateFin);
         this.nbMaxEmp = nbMaxEmp;
+        
+        compRemp = new HashMap<Competence, Integer>();
         compReq = new HashMap<Competence, Integer>();
         equipe = new ArrayList<Employe>();
+        //this.statut = generateStatut();
     }
     
    
@@ -67,6 +70,10 @@ public class Mission implements IEntite {
         return nbMaxEmp;
     }
     
+    public HashMap<Competence, Integer> getCompRemp(){
+        return compRemp;
+    }
+    
     public HashMap<Competence, Integer> getCompReq(){
         return compReq;
     }
@@ -92,7 +99,7 @@ public class Mission implements IEntite {
 
     public void afficherCompReq(){
         System.out.println("Compétences requises pour la mission " + id + " - " + libelle + " : \n");
-        for (Map.Entry c : compReq.entrySet()){
+        for (Map.Entry c : compRemp.entrySet()){
             System.out.println(c.getKey());
             System.out.println("Nombre de personnes requises : " + c.getValue() + ".");
         }
@@ -118,6 +125,22 @@ public class Mission implements IEntite {
         return chaine ;
     }
 
+    public void generateStatut(){
+        int st = 1;
+        System.out.print(equipe.size());
+        if(new Date().before(dateDeb)){
+            if(!eqNotComplete() && checkCompRemp())
+                st = 2;
+        }
+        else{
+            if(new Date().after(dateFin))
+                st = 4;
+            else{
+                st = 3;
+            }
+        }
+        setStatut(st);
+    }
     
     /**
      * Permet l'ajout d'une compétence nécessaire à la mission
@@ -125,8 +148,10 @@ public class Mission implements IEntite {
      * @param nb 
      */
     public void addCompMiss(Competence c, Integer nbReq){
-        if(!compReq.containsKey(c))
+        if(!compRemp.containsKey(c)){
+            compRemp.put(c, nbReq);
             compReq.put(c, nbReq);
+        }
         else
             System.out.println("La compétence existe déjà dans la mission");
     }
@@ -136,8 +161,10 @@ public class Mission implements IEntite {
      * @param c
      */
     public void delCompMiss(Competence c){
-        if(compReq.containsKey(c))
+        if(compRemp.containsKey(c)){
+            compRemp.remove(c);
             compReq.remove(c);
+        }
         else
             System.out.println("La compétence n'existe pas dans la mission");
     }
@@ -148,17 +175,18 @@ public class Mission implements IEntite {
      * @param nb 
      */
     public void modifNbComp(Competence c, Integer nbReq){
+        compRemp.put(c, nbReq);
         compReq.put(c, nbReq);
-        if((statut == 2) && (!checkCompReq())){
+        if((statut == 2) && (!checkCompRemp())){
             statut = 1;
             System.out.println("Il faut davantage de personnel maîtrisant la compétence " + c.getLibelleFR());
         }
-        if((statut == 1) && (checkCompReq())){
+        if((statut == 1) && (checkCompRemp())){
             statut = 2;
         }
     }
     
-    public boolean eqComplete(){
+    public boolean eqNotComplete(){
         if(equipe.size() < nbMaxEmp)
             return true;
         else
@@ -175,10 +203,10 @@ public class Mission implements IEntite {
             int nb;
             // On désincrémente de 1 chaque compétence de la mission que l'employé dispose.
             for(Competence c : e.getCompetences()){
-                if(compReq.containsKey(c)){
-                    nb = compReq.get(c);
+                if(compRemp.containsKey(c)){
+                    nb = compRemp.get(c);
                     nb--;
-                    compReq.put(c, nb);
+                    compRemp.put(c, nb);
                 }
             }
            
@@ -194,10 +222,10 @@ public class Mission implements IEntite {
             int nb;
             // On incrémente de 1 chaque compétence de la mission que l'employé dispose.
             for(Competence c : e.getCompetences()){
-                if(compReq.containsKey(c)){
-                    nb = compReq.get(c);
+                if(compRemp.containsKey(c)){
+                    nb = compRemp.get(c);
                     nb++;
-                    compReq.put(c, nb);
+                    compRemp.put(c, nb);
                 }
             }
         }
@@ -212,7 +240,7 @@ public class Mission implements IEntite {
     public void replaceEmp(Employe current, Employe futur){
         delEmpMiss(current);
         addEmpMiss(futur);
-        if(!checkCompReq()){
+        if(!checkCompRemp()){
             delEmpMiss(futur);
             addEmpMiss(current);
             System.out.println("Le nouveau salarié ne remplit pas les conditions de la mission.");
@@ -228,7 +256,7 @@ public class Mission implements IEntite {
     public void replaceEmp2(Employe current, Employe futur){
         delEmpMiss(current);
         addEmpMiss(futur);
-        if(!checkCompReq()){
+        if(!checkCompRemp()){
             statut = 1;
             System.out.println("Attention, le nouveau salarié ne remplit pas les conditions de la mission.");
         }
@@ -254,7 +282,7 @@ public class Mission implements IEntite {
     public void changeStatut(){
         switch (statut){
             case 1 :
-                if((equipe.size() == nbMaxEmp) && (checkCompReq()))
+                if((equipe.size() == nbMaxEmp) && (checkCompRemp()))
                     setStatut(2);
                 break;
             case 2 :
@@ -268,9 +296,9 @@ public class Mission implements IEntite {
         }
     }
     
-    public boolean checkCompReq(){
+    public boolean checkCompRemp(){
         boolean check = true;
-        for (Map.Entry c : compReq.entrySet()){
+        for (Map.Entry c : compRemp.entrySet()){
             if(check && (Integer.parseInt(c.getValue().toString()) > 0))
                 check = false;
         }
