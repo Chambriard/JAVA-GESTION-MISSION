@@ -155,22 +155,39 @@ public class Mission implements IEntite {
      */
     public void generateRaf(){
         raf = "";
-        // Ajout de l'état de l'équipe si celle-ci n'est pas complète
-        if(eqNotComplete())
-            raf += "Equipe : " + equipe.size() + "/" + nbMaxEmp;
-        if(!checkCompRemp()){
-            if(eqNotComplete())
-                raf += " - ";
-            raf += "Compétences : ";
-            // Ajoute le nombre de compétences à remplir pour chacune des compétences incomplète au sein de la mission
-            for (Map.Entry c : compRemp.entrySet()){
-                if((Integer.parseInt(c.getValue().toString()) > 0)){
-                    // Nombre de compétence déjà remplie = nombre requis - nombre restant
-                    int NbDejaComplete = (compReq.get((Competence)c.getKey())-(Integer)c.getValue());
-                    raf += c.getKey() + ":" + NbDejaComplete + "/" + compReq.get((Competence)c.getKey()) + "      ";
+        switch(statut){
+            case 1 :
+                raf += "<html><font color = red >";
+                // Ajout de l'état de l'équipe si celle-ci n'est pas complète
+                if(eqNotComplete())
+                    raf += "<strong>Equipe : </strong>" + equipe.size() + "/" + nbMaxEmp;
+                if(!checkCompRemp()){
+                    if(eqNotComplete())
+                        raf += " - ";
+                    raf += "<strong>Compétences : &nbsp;&nbsp;&nbsp;</strong>";
+                    // Ajoute le nombre de compétences à remplir pour chacune des compétences incomplète au sein de la mission
+                    for (Map.Entry c : compRemp.entrySet()){
+                        if((Integer.parseInt(c.getValue().toString()) > 0)){
+                            // Nombre de compétence déjà remplie = nombre requis - nombre restant
+                            int NbDejaComplete = (compReq.get((Competence)c.getKey())-(Integer)c.getValue());
+                            raf += c.getKey() + ":" + NbDejaComplete + "/" + compReq.get((Competence)c.getKey()) + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                        }
+                    }
                 }
-            }
+                raf += "</font></html>";
+                break;
+            
+            default : raf = "<html><strong><font color = green >OK ✔</strong></font></html>"; break;
+            /*case 2 :
+                raf = "Mission planifiée"; break;
+            
+            case 3 :
+                raf = "Mission en cours"; break;
+            
+            case 4 :
+                raf = "Mission terminée"; break;*/
         }
+        
     }
     
     /**
