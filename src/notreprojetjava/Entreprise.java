@@ -50,6 +50,7 @@ public class Entreprise {
         CSVFME = new CSVFileMissEmp();
         CSVFME.recupMissEmp(listeEmployes, listeMissions);
         //generateStatut();
+        generateRaf();
     }
     
     // Accesseurs
@@ -200,6 +201,13 @@ public class Entreprise {
         for(Mission m : listeMissions){
             m.generateStatut();
             System.out.print(m.getStatut());
+        }
+    }
+    
+    public void generateRaf(){
+        for(Mission m : listeMissions){
+            m.generateRaf();
+            System.out.print(m.getRaf());
         }
     }
     

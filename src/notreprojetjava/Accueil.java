@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -28,15 +29,24 @@ public class Accueil extends javax.swing.JFrame {
         
         TPane.setTitleAt(0, "Gestion des Missions");
         TPane.setTitleAt(1, "Gestion des Employés");
+        TPane.setTitleAt(2, "Compétences de l'entreprise");
         
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("Numéro");
+        model.addColumn("N°");
         model.addColumn("Libellé");
         model.addColumn("Statut");
+        model.addColumn("Reste à faire");
+
         for(Mission maMission : entreprise.getListeMissions()){
-            model.addRow(new String[]{maMission.getId(),maMission.getLibelle(), maMission.colorStatut()});
+            model.addRow(new String[]{maMission.getId(),maMission.getLibelle(), maMission.colorStatut(), maMission.getRaf()});
         }   
         JTableMission.setModel(model);
+        TableColumnModel tcm = JTableMission.getColumnModel();
+        tcm.getColumn(0).setPreferredWidth(10);
+        tcm.getColumn(1).setPreferredWidth(200);
+        tcm.getColumn(2).setPreferredWidth(20);
+        tcm.getColumn(3).setPreferredWidth(500);
+        
         
         DefaultTableModel modelEmp = new DefaultTableModel();
         modelEmp.addColumn("Numéro");
@@ -46,6 +56,21 @@ public class Accueil extends javax.swing.JFrame {
             modelEmp.addRow(new String[]{e.getId(),e.getPrenom(), e.getNom()});
         }   
         jTableEmp.setModel(modelEmp);  
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        
+        DefaultTableModel modelComp = new DefaultTableModel();
+        modelComp.addColumn("Numéro");
+        modelComp.addColumn("Libellé Anglais");
+        modelComp.addColumn("Libellé Français");
+        for(Competence c : entreprise.getListeCompetences()){
+            modelComp.addRow(new String[]{c.getId(),c.getLibelleEN(), c.getLibelleFR()});
+        }   
+        jTableComp.setModel(modelComp);  
+        TableColumnModel tcmComp = jTableComp.getColumnModel();
+        tcmComp.getColumn(0).setPreferredWidth(30);
+        tcmComp.getColumn(1).setPreferredWidth(350);
+        tcmComp.getColumn(2).setPreferredWidth(350);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -71,6 +96,8 @@ public class Accueil extends javax.swing.JFrame {
         };
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableEmp = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableComp = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +111,7 @@ public class Accueil extends javax.swing.JFrame {
         jLabel4.setText("* Cliquez sur une mission ou un employé pour accéder aux détails correspondants");
 
         TPane.setToolTipText("");
+        TPane.setName(""); // NOI18N
 
         JTableMission.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,6 +163,22 @@ public class Accueil extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableEmp);
 
         TPane.addTab("tab2", jScrollPane1);
+
+        jTableComp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTableComp.setEnabled(false);
+        jScrollPane3.setViewportView(jTableComp);
+
+        TPane.addTab("tab3", jScrollPane3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -266,6 +310,8 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTableComp;
     private javax.swing.JTable jTableEmp;
     // End of variables declaration//GEN-END:variables
 }

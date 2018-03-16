@@ -24,6 +24,7 @@ public class Mission implements IEntite {
     private Date dateDeb;
     private Date dateFin;
     private int statut;
+    private String raf;
     HashMap<Competence, Integer> compRemp;
     HashMap<Competence, Integer> compReq;
     ArrayList<Employe> equipe;
@@ -36,6 +37,7 @@ public class Mission implements IEntite {
         this.dateDeb = dc.convertStrDate(dateDeb);
         this.dateFin = dc.convertStrDate(dateFin);
         this.nbMaxEmp = nbMaxEmp;
+        this.raf = "";
         
         compRemp = new HashMap<Competence, Integer>();
         compReq = new HashMap<Competence, Integer>();
@@ -53,6 +55,10 @@ public class Mission implements IEntite {
     
     public String getLibelle(){
         return libelle;
+    }
+    
+    public String getRaf(){
+        return raf;
     }
     
     public int getStatut(){
@@ -141,6 +147,30 @@ public class Mission implements IEntite {
             }
         }
         setStatut(st);
+    }
+    
+    /**
+     * Permet de générer la chaîne de caratères des  éléments
+     * incomplets d'une mission
+     */
+    public void generateRaf(){
+        raf = "";
+        // Ajout de l'état de l'équipe si celle-ci n'est pas complète
+        if(eqNotComplete())
+            raf += "Equipe : " + equipe.size() + "/" + nbMaxEmp;
+        if(!checkCompRemp()){
+            if(eqNotComplete())
+                raf += " - ";
+            raf += "Compétences : ";
+            // Ajoute le nombre de compétences à remplir pour chacune des compétences incomplète au sein de la mission
+            for (Map.Entry c : compRemp.entrySet()){
+                if((Integer.parseInt(c.getValue().toString()) > 0)){
+                    // Nombre de compétence déjà remplie = nombre requis - nombre restant
+                    int NbDejaComplete = (compReq.get((Competence)c.getKey())-(Integer)c.getValue());
+                    raf += c.getKey() + ":" + NbDejaComplete + "/" + compReq.get((Competence)c.getKey()) + "      ";
+                }
+            }
+        }
     }
     
     /**
