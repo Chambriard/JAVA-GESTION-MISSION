@@ -28,8 +28,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
         this.monEmp = e ;
         this.entreprise = entreprise ;
         
-        JTIdEmp.setText(e.getId());
-        JTIdEmp.setEditable(false);
+        LBLID.setText(e.getId());
         
         JTNomEmp.setText(monEmp.getNom());
         JTPrenomEmp.setText(monEmp.getPrenom());
@@ -67,6 +66,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
             }
         }
         JTLesComp.setModel(modelLesComp);
+        this.setDefaultCloseOperation(2);
     }
 
     /**
@@ -86,7 +86,6 @@ public class JDetailEmploye extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         JTPrenomEmp = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        JTIdEmp = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         dateJ = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -101,6 +100,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
         JTAjoutComp = new javax.swing.JButton();
         JTRemoveComp = new javax.swing.JButton();
         BTNRetour = new javax.swing.JButton();
+        LBLID = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -182,6 +182,8 @@ public class JDetailEmploye extends javax.swing.JFrame {
             }
         });
 
+        LBLID.setText("jLabel8");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,10 +223,11 @@ public class JDetailEmploye extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(JTNomEmp)
-                    .addComponent(JTPrenomEmp)
-                    .addComponent(JTIdEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(JTNomEmp)
+                        .addComponent(JTPrenomEmp))
+                    .addComponent(LBLID))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(349, 349, 349)
@@ -236,10 +239,10 @@ public class JDetailEmploye extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel13)
-                .addGap(22, 22, 22)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(JTIdEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LBLID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -266,7 +269,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(JTAjoutComp)
                         .addGap(28, 28, 28)
                         .addComponent(JTRemoveComp)
@@ -369,11 +372,11 @@ public class JDetailEmploye extends javax.swing.JFrame {
     private javax.swing.JButton BTNRetour;
     private javax.swing.JButton JTAjoutComp;
     private javax.swing.JTable JTCompEmp;
-    private javax.swing.JTextField JTIdEmp;
     private javax.swing.JTable JTLesComp;
     private javax.swing.JTextField JTNomEmp;
     private javax.swing.JTextField JTPrenomEmp;
     private javax.swing.JButton JTRemoveComp;
+    private javax.swing.JLabel LBLID;
     private javax.swing.JTextField dateA;
     private javax.swing.JTextField dateJ;
     private javax.swing.JTextField dateM;

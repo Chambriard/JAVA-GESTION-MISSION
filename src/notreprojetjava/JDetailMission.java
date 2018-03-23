@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
@@ -39,6 +40,9 @@ public class JDetailMission extends javax.swing.JFrame {
     static Entreprise entreprise;
     
     public JDetailMission(Entreprise entreprise, Mission m) {
+        //this.setUndecorated(true);
+        //this.setDefaultLookAndFeelDecorated(false);
+        
         initComponents();
         this.entreprise = entreprise;
         this.maMission = m;
@@ -48,6 +52,8 @@ public class JDetailMission extends javax.swing.JFrame {
         TFMLibelle.setText(m.getLibelle());
         
         TFMnbMax.setText(String.valueOf(m.getNbMaxEmp()));
+        
+        spnComp.setModel(new javax.swing.SpinnerNumberModel(1, 1, m.getNbMaxEmp(), 1));
         
         switch(m.getStatut()){
             case 1 : LBLStatut.setText("En préparation"); break;
@@ -135,7 +141,7 @@ public class JDetailMission extends javax.swing.JFrame {
             }
         }
         jtableLesCompetences.setModel(modelLesComp);
-        
+        this.setDefaultCloseOperation(2);
     }
 
     /**
@@ -189,7 +195,6 @@ public class JDetailMission extends javax.swing.JFrame {
             }
         };
         jLabel11 = new javax.swing.JLabel();
-        TFRequis = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         ajouterComp = new javax.swing.JButton();
         removeEmp = new javax.swing.JButton();
@@ -203,6 +208,10 @@ public class JDetailMission extends javax.swing.JFrame {
         LBLStatut = new javax.swing.JLabel();
         BTNSave = new javax.swing.JButton();
         BTNRetour = new javax.swing.JButton();
+        spnComp = new javax.swing.JSpinner();
+        lblLimit = new javax.swing.JLabel();
+        lblLimit2 = new javax.swing.JLabel();
+        lblLimit3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -288,6 +297,11 @@ public class JDetailMission extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtableLesCompetences.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtableLesCompetencesMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jtableLesCompetences);
 
         jLabel11.setText("Liste des compétences :");
@@ -295,6 +309,7 @@ public class JDetailMission extends javax.swing.JFrame {
         jLabel12.setText("Requis : ");
 
         ajouterComp.setText("Ajouter >>");
+        ajouterComp.setEnabled(false);
         ajouterComp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ajouterCompActionPerformed(evt);
@@ -316,6 +331,11 @@ public class JDetailMission extends javax.swing.JFrame {
         jLabel15.setText("MAX :");
 
         TFMnbMax.setText("jTextField1");
+        TFMnbMax.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TFMnbMaxKeyPressed(evt);
+            }
+        });
 
         jLabel16.setText("Statut :");
 
@@ -339,6 +359,23 @@ public class JDetailMission extends javax.swing.JFrame {
             }
         });
 
+        spnComp.setValue(1);
+        spnComp.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spnComp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnCompStateChanged(evt);
+            }
+        });
+
+        lblLimit.setText("<html><font color = red >Le nombre requis de compétences</font></html>");
+        lblLimit.setVisible(false);
+
+        lblLimit2.setText("<html><font color = red >ne peut pas dépasser le nombre</font></html>");
+        lblLimit2.setVisible(false);
+
+        lblLimit3.setText("<html><font color = red >maximum d'employés.</font></html>");
+        lblLimit3.setVisible(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -354,9 +391,9 @@ public class JDetailMission extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(97, 97, 97)
                         .addComponent(jLabel11)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(removeEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(ajoutEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -371,74 +408,80 @@ public class JDetailMission extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
+                        .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addGap(25, 25, 25)
                                 .addComponent(ajouterComp))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel12)
-                                .addGap(18, 18, 18)
-                                .addComponent(TFRequis, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(29, 29, 29)
+                                .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                        .addGap(15, 15, 15))))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(17, 17, 17)
+                .addComponent(jLabel13)
+                .addGap(145, 145, 145)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel13)
-                        .addGap(145, 145, 145)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LBLStatut, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TFMLibelle))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel16)
+                                .addGap(132, 132, 132)
+                                .addComponent(jLabel7))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(LBLStatut, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(LBLID)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dateFinJ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateDebJ, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel14)
+                                .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(TFMLibelle))
+                                .addComponent(dateDebM, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(132, 132, 132)
-                                        .addComponent(jLabel7))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(LBLID)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dateFinJ, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dateDebJ, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(dateDebM, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(dateFinM, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dateDebA)
-                                    .addComponent(dateFinA, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dateFinM, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dateDebA)
+                            .addComponent(dateFinA, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(360, 360, 360)
                         .addComponent(BTNRetour)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(BTNSave)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(BTNSave))
+                    .addComponent(lblLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLimit2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(lblLimit3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(358, 358, 358))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,47 +517,52 @@ public class JDetailMission extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(LBLStatut))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15)
                             .addComponent(TFMnbMax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(ajoutEmp)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removeEmp))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(removeEmp)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(ajouterComp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ajouterComp)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(TFRequis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addComponent(lblLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLimit2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLimit3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNSave)
                     .addComponent(BTNRetour))
-                .addContainerGap())
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();
@@ -599,36 +647,41 @@ public class JDetailMission extends javax.swing.JFrame {
         int ligne = jtableLesCompetences.getSelectedRow();
         int colonneId = 0 ;
         int colonneNomFra = 1;
-        Integer nbRequisI = 0 ;
         String id = (String) jtableLesCompetences.getValueAt(ligne, colonneId);
         String nomFra = (String) jtableLesCompetences.getValueAt(ligne, colonneNomFra);
-        String nbRequis = (String)TFRequis.getText();
-        nbRequisI = Integer.parseInt(nbRequis);
+        System.out.println(spnComp.getValue());
+        int spnI = ((Integer) spnComp.getValue()).intValue();
+        String spnS = spnComp.getValue().toString();
+        System.out.println(spnS);
         
-        if (!TFRequis.getText().isEmpty()){
-            
+        if (spnI > Integer.parseInt(TFMnbMax.getText())){
+            lblLimit.setVisible(true);
+            lblLimit2.setVisible(true);
+            lblLimit3.setVisible(true);
+        }
+        else {
+            lblLimit.setVisible(false);
+            lblLimit2.setVisible(false);
+            lblLimit3.setVisible(false);
             DefaultTableModel modelLesCompMission =(DefaultTableModel)  compMission.getModel();
-            modelLesCompMission.addRow(new Object[]{id,nomFra,nbRequis});
+            modelLesCompMission.addRow(new Object[]{id,nomFra,spnS});
             compMission.setModel(modelLesCompMission);
 
             //Enlever la compétence de la Jtable
 
             DefaultTableModel modelLesComp =(DefaultTableModel)  jtableLesCompetences.getModel();
             modelLesComp.removeRow(ligne);
-            System.out.println(nbRequisI);
+            System.out.println(spnI);
             jtableLesCompetences.setModel(modelLesComp);
-        }
-        else{
-            JOptionPane.showMessageDialog(rootPane, "veuillez reéssayer l'ajout!", "Message d'erreur", JOptionPane.INFORMATION_MESSAGE);
-        }     
-       
-        for(Competence uneComp : entreprise.getListeCompetences() ){
-            if(uneComp.getId().equals(id)){
-                entreprise.addCompMiss(maMission, uneComp, nbRequisI);
+
+            for(Competence uneComp : entreprise.getListeCompetences() ){
+                if(uneComp.getId().equals(id)){
+                    entreprise.addCompMiss(maMission, uneComp, spnI);
+                }
             }
+            entreprise.generateStatut(maMission);
+            ajouterComp.setEnabled(false);
         }
-        entreprise.generateStatut(maMission);
-        
     }//GEN-LAST:event_ajouterCompActionPerformed
 
     private void removeEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEmpActionPerformed
@@ -730,6 +783,34 @@ public class JDetailMission extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_BTNRetourActionPerformed
 
+    private void spnCompStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCompStateChanged
+        int spnI = ((Integer) spnComp.getValue()).intValue();
+        
+        if (spnI >= Integer.parseInt(TFMnbMax.getText())){
+            lblLimit.setVisible(true);
+            lblLimit2.setVisible(true);
+            lblLimit3.setVisible(true);
+        }
+        else {
+            lblLimit.setVisible(false);
+            lblLimit2.setVisible(false);
+            lblLimit3.setVisible(false);
+        }
+    }//GEN-LAST:event_spnCompStateChanged
+
+    private void TFMnbMaxKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFMnbMaxKeyPressed
+        int max = Integer.valueOf(TFMnbMax.getText());
+        spnComp.setModel(new javax.swing.SpinnerNumberModel(1, 1, max, 1));
+        lblLimit.setVisible(false);
+        lblLimit2.setVisible(false);
+        lblLimit3.setVisible(false);
+
+    }//GEN-LAST:event_TFMnbMaxKeyPressed
+
+    private void jtableLesCompetencesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableLesCompetencesMouseClicked
+        ajouterComp.setEnabled(true);
+    }//GEN-LAST:event_jtableLesCompetencesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -777,7 +858,6 @@ public class JDetailMission extends javax.swing.JFrame {
     private javax.swing.JLabel LBLStatut;
     private javax.swing.JTextField TFMLibelle;
     private javax.swing.JTextField TFMnbMax;
-    private javax.swing.JTextField TFRequis;
     private javax.swing.JButton ajoutEmp;
     private javax.swing.JButton ajouterComp;
     private javax.swing.JTable compMission;
@@ -808,8 +888,12 @@ public class JDetailMission extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jtableLesCompetences;
+    private javax.swing.JLabel lblLimit;
+    private javax.swing.JLabel lblLimit2;
+    private javax.swing.JLabel lblLimit3;
     private javax.swing.JTable lesEmp;
     private javax.swing.JTable lesEmpDeLaMiss;
     private javax.swing.JButton removeEmp;
+    private javax.swing.JSpinner spnComp;
     // End of variables declaration//GEN-END:variables
 }

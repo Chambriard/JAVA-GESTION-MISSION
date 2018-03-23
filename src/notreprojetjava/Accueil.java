@@ -24,6 +24,9 @@ public class Accueil extends javax.swing.JFrame {
      */
     static Entreprise entreprise;
     public Accueil() throws FileNotFoundException, ParseException {
+        //this.pack();
+        //this.setDefaultLookAndFeelDecorated(true);
+        //this.setExtendedState(this.MAXIMIZED_BOTH);
         initComponents();
         entreprise = new Entreprise();
         
@@ -73,6 +76,13 @@ public class Accueil extends javax.swing.JFrame {
         tcmComp.getColumn(2).setPreferredWidth(350);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        
+        for(Competence c : entreprise.getListeCompetences()){
+            cbFiltreComp.addItem(c.getLibelleFR());
+        }   
+        
+        lblFiltre.setVisible(false);
+        cbFiltreComp.setVisible(false);
     }
 
     /**
@@ -107,6 +117,8 @@ public class Accueil extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        cbFiltreComp = new javax.swing.JComboBox<>();
+        lblFiltre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +133,11 @@ public class Accueil extends javax.swing.JFrame {
 
         TPane.setToolTipText("");
         TPane.setName(""); // NOI18N
+        TPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TPaneMouseClicked(evt);
+            }
+        });
 
         JTableMission.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -211,6 +228,11 @@ public class Accueil extends javax.swing.JFrame {
 
         jLabel13.setText("Statut des missions :");
 
+        cbFiltreComp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aucune sélection" }));
+
+        lblFiltre.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lblFiltre.setText("Filtrer selon une compétence sélectionnée :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,25 +253,35 @@ public class Accueil extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel9)
-                                        .addGap(60, 60, 60)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel10)
-                                        .addGap(60, 60, 60)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel11)
-                                        .addGap(60, 60, 60)
-                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel12))
-                                    .addComponent(jLabel13))))
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(cbFiltreComp, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel9)
+                                                .addGap(60, 60, 60)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel10)
+                                                .addGap(60, 60, 60)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel11)
+                                                .addGap(60, 60, 60)
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel12))
+                                            .addComponent(jLabel13)
+                                            .addComponent(jLabel4))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(95, 95, 95))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblFiltre)
+                .addGap(177, 177, 177))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,6 +294,10 @@ public class Accueil extends javax.swing.JFrame {
                 .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblFiltre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cbFiltreComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -274,7 +310,7 @@ public class Accueil extends javax.swing.JFrame {
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         TPane.getAccessibleContext().setAccessibleName("Missions");
@@ -321,6 +357,16 @@ public class Accueil extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableEmpMousePressed
 
+    private void TPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TPaneMouseClicked
+        if(TPane.getSelectedComponent().equals(jScrollPane1)) {
+            lblFiltre.setVisible(true);
+            cbFiltreComp.setVisible(true);
+        } else {
+            lblFiltre.setVisible(false);
+            cbFiltreComp.setVisible(false);
+        }
+    }//GEN-LAST:event_TPaneMouseClicked
+
  
     /**
      * @param args the command line arguments
@@ -366,6 +412,7 @@ public class Accueil extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableMission;
     private javax.swing.JTabbedPane TPane;
+    private javax.swing.JComboBox<String> cbFiltreComp;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -383,5 +430,6 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableComp;
     private javax.swing.JTable jTableEmp;
+    private javax.swing.JLabel lblFiltre;
     // End of variables declaration//GEN-END:variables
 }
