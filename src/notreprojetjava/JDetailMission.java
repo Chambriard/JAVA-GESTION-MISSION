@@ -22,6 +22,7 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.QUESTION_MESSAGE;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
@@ -54,6 +55,7 @@ public class JDetailMission extends javax.swing.JFrame {
         TFMnbMax.setText(String.valueOf(m.getNbMaxEmp()));
         
         spnComp.setModel(new javax.swing.SpinnerNumberModel(1, 1, m.getNbMaxEmp(), 1));
+        
         
         switch(m.getStatut()){
             case 1 : LBLStatut.setText("En préparation"); break;
@@ -212,6 +214,8 @@ public class JDetailMission extends javax.swing.JFrame {
         lblLimit = new javax.swing.JLabel();
         lblLimit2 = new javax.swing.JLabel();
         lblLimit3 = new javax.swing.JLabel();
+        removeComp = new javax.swing.JButton();
+        spnRemove = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -228,6 +232,11 @@ public class JDetailMission extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        lesEmpDeLaMiss.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lesEmpDeLaMissMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(lesEmpDeLaMiss);
 
         jLabel2.setText("Liste des employés :");
@@ -251,6 +260,7 @@ public class JDetailMission extends javax.swing.JFrame {
         jScrollPane3.setViewportView(lesEmp);
 
         ajoutEmp.setText("Ajouter >>");
+        ajoutEmp.setEnabled(false);
         ajoutEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ajoutEmpActionPerformed(evt);
@@ -282,6 +292,11 @@ public class JDetailMission extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        compMission.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                compMissionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(compMission);
 
         jLabel10.setText("Compétences requises pour la mission :");
@@ -317,6 +332,7 @@ public class JDetailMission extends javax.swing.JFrame {
         });
 
         removeEmp.setText("<< Supprimer");
+        removeEmp.setEnabled(false);
         removeEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeEmpActionPerformed(evt);
@@ -361,6 +377,7 @@ public class JDetailMission extends javax.swing.JFrame {
 
         spnComp.setValue(1);
         spnComp.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spnComp.setEnabled(false);
         spnComp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 spnCompStateChanged(evt);
@@ -375,6 +392,17 @@ public class JDetailMission extends javax.swing.JFrame {
 
         lblLimit3.setText("<html><font color = red >maximum d'employés.</font></html>");
         lblLimit3.setVisible(false);
+
+        removeComp.setText("<< Supprimer");
+        removeComp.setEnabled(false);
+        removeComp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeCompActionPerformed(evt);
+            }
+        });
+
+        spnRemove.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spnRemove.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -408,16 +436,24 @@ public class JDetailMission extends javax.swing.JFrame {
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(ajouterComp))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(46, 46, 46)
                                 .addComponent(jLabel12)
                                 .addGap(29, 29, 29)
-                                .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                                .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(removeComp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(ajouterComp, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(70, 70, 70))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(spnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(98, 98, 98)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -535,12 +571,16 @@ public class JDetailMission extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(removeComp))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(ajouterComp)
+                                .addComponent(spnRemove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(ajouterComp)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel12)
                                     .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -618,6 +658,7 @@ public class JDetailMission extends javax.swing.JFrame {
         //Ajoute l'employé dans la liste d'employé de la mission et réduir le requis de jtable compMission
         
         DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
+        ajoutEmp.setEnabled(false);
 //        for(Employe unEmp : entreprise.getListeEmployes() ){
 //            if(unEmp.getId().equals(id)){
 //                maMission.equipe.add(unEmp);
@@ -642,6 +683,8 @@ public class JDetailMission extends javax.swing.JFrame {
 //        }
     }//GEN-LAST:event_ajoutEmpActionPerformed
 
+    
+    
     private void ajouterCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterCompActionPerformed
         // TODO add your handling code here:
         int ligne = jtableLesCompetences.getSelectedRow();
@@ -724,6 +767,7 @@ public class JDetailMission extends javax.swing.JFrame {
             }
             compMission.setModel(modelCompMission);
             entreprise.generateStatut(maMission);
+            removeEmp.setEnabled(false);
         /*for(Employe unEmp : entreprise.getListeEmployes() ){
             if(unEmp.getId().equals(id)){
                 maMission.equipe.remove(unEmp);
@@ -753,7 +797,7 @@ public class JDetailMission extends javax.swing.JFrame {
     }//GEN-LAST:event_removeEmpActionPerformed
 
     private void lesEmpMouseClicked(java.awt.event.MouseEvent evt) {                                    
-        // TODO add your handling code here:
+        ajoutEmp.setEnabled(true);
         if(evt.getClickCount() == 2){
             JDetailEmploye frameDetailEmploye = null ;
             int Ligne = lesEmp.getSelectedRow();
@@ -773,6 +817,7 @@ public class JDetailMission extends javax.swing.JFrame {
                 entreprise.saveMiss();
                 showMessageDialog(null, "Sauvegarde de la mission correctement effectuée !", "", INFORMATION_MESSAGE);
                 this.dispose();
+                
             } catch (IOException ex) {
                 Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -780,7 +825,22 @@ public class JDetailMission extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNSaveActionPerformed
 
     private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
-        this.dispose();
+        switch(showConfirmDialog(null, "Attention, si vous quittez sans sauvegarder, toutes modifications sera perdue !\nVoulez-vous sauvegarder avant de quitter ?", "", YES_NO_CANCEL_OPTION)){                
+            
+            case JOptionPane.YES_OPTION :
+                maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
+                maMission.setLibelle(TFMLibelle.getText());
+                try {
+                    entreprise.saveMiss();
+                    showMessageDialog(null, "Sauvegarde de la mission correctement effectuée !", "", INFORMATION_MESSAGE);
+                    this.dispose();
+                } catch (IOException ex) {
+                    Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case JOptionPane.NO_OPTION : this.dispose(); break;
+        }
+        //this.dispose();
     }//GEN-LAST:event_BTNRetourActionPerformed
 
     private void spnCompStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCompStateChanged
@@ -809,7 +869,23 @@ public class JDetailMission extends javax.swing.JFrame {
 
     private void jtableLesCompetencesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtableLesCompetencesMouseClicked
         ajouterComp.setEnabled(true);
+        spnComp.setEnabled(true);
     }//GEN-LAST:event_jtableLesCompetencesMouseClicked
+
+    private void lesEmpDeLaMissMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lesEmpDeLaMissMouseClicked
+        removeEmp.setEnabled(true);
+    }//GEN-LAST:event_lesEmpDeLaMissMouseClicked
+
+    private void compMissionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_compMissionMouseClicked
+        removeComp.setEnabled(true);
+        spnRemove.setEnabled(true);
+        //int max = (Integer) compMission.getValueAt(compMission.getSelectedRow(), 2);
+        //spnRemove.setModel(new javax.swing.SpinnerNumberModel(1, 1, max, 1));
+    }//GEN-LAST:event_compMissionMouseClicked
+
+    private void removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCompActionPerformed
+        
+    }//GEN-LAST:event_removeCompActionPerformed
 
     /**
      * @param args the command line arguments
@@ -893,7 +969,9 @@ public class JDetailMission extends javax.swing.JFrame {
     private javax.swing.JLabel lblLimit3;
     private javax.swing.JTable lesEmp;
     private javax.swing.JTable lesEmpDeLaMiss;
+    private javax.swing.JButton removeComp;
     private javax.swing.JButton removeEmp;
     private javax.swing.JSpinner spnComp;
+    private javax.swing.JSpinner spnRemove;
     // End of variables declaration//GEN-END:variables
 }

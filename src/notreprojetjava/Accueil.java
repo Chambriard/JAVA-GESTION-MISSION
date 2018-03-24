@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -83,6 +85,8 @@ public class Accueil extends javax.swing.JFrame {
         
         lblFiltre.setVisible(false);
         cbFiltreComp.setVisible(false);
+        
+        this.setDefaultCloseOperation(0);
     }
 
     /**
@@ -120,6 +124,7 @@ public class Accueil extends javax.swing.JFrame {
         cbFiltreComp = new javax.swing.JComboBox<>();
         lblFiltre = new javax.swing.JLabel();
         ajoutMiss = new javax.swing.JButton();
+        btnQuitter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -241,12 +246,22 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        btnQuitter.setBackground(new java.awt.Color(239, 131, 131));
+        btnQuitter.setText("Quitter");
+        btnQuitter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(230, 230, 230)
+                .addGap(16, 16, 16)
+                .addComponent(btnQuitter)
+                .addGap(137, 137, 137)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -297,7 +312,9 @@ public class Accueil extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(jLabel2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(btnQuitter))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -389,6 +406,12 @@ public class Accueil extends javax.swing.JFrame {
         framCreerMission.setVisible(true);
     }//GEN-LAST:event_ajoutMissActionPerformed
 
+    private void btnQuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitterActionPerformed
+        if(showConfirmDialog(null, "Êtes-vous certain de vouloir quitter l'application ?", "", OK_CANCEL_OPTION) == 0){                
+                this.dispose();
+        }
+    }//GEN-LAST:event_btnQuitterActionPerformed
+
  
     /**
      * @param args the command line arguments
@@ -435,6 +458,7 @@ public class Accueil extends javax.swing.JFrame {
     private javax.swing.JTable JTableMission;
     private javax.swing.JTabbedPane TPane;
     private javax.swing.JButton ajoutMiss;
+    private javax.swing.JButton btnQuitter;
     private javax.swing.JComboBox<String> cbFiltreComp;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

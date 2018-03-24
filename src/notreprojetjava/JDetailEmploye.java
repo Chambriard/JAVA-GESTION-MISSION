@@ -145,6 +145,11 @@ public class JDetailEmploye extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        JTLesComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTLesCompMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(JTLesComp);
 
         JTCompEmp.setModel(new javax.swing.table.DefaultTableModel(
@@ -158,9 +163,15 @@ public class JDetailEmploye extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        JTCompEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JTCompEmpMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(JTCompEmp);
 
         JTAjoutComp.setText("Ajouter >>");
+        JTAjoutComp.setEnabled(false);
         JTAjoutComp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTAjoutCompActionPerformed(evt);
@@ -168,6 +179,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
         });
 
         JTRemoveComp.setText("<< Supprimer");
+        JTRemoveComp.setEnabled(false);
         JTRemoveComp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTRemoveCompActionPerformed(evt);
@@ -301,7 +313,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
         Competence uneComp = entreprise.recupCompById(id);
         entreprise.addCompEmp(monEmp, uneComp);
         entreprise.afficherEmpComp(monEmp);
-        
+        JTAjoutComp.setEnabled(false);
     }//GEN-LAST:event_JTAjoutCompActionPerformed
 
     private void JTRemoveCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTRemoveCompActionPerformed
@@ -323,11 +335,20 @@ public class JDetailEmploye extends javax.swing.JFrame {
         Competence uneComp = entreprise.recupCompById(id);
         entreprise.delCompEmp(monEmp, uneComp);
         entreprise.afficherEmpComp(monEmp);
+        JTRemoveComp.setEnabled(false);
     }//GEN-LAST:event_JTRemoveCompActionPerformed
 
     private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
         this.dispose();
     }//GEN-LAST:event_BTNRetourActionPerformed
+
+    private void JTLesCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTLesCompMouseClicked
+        JTAjoutComp.setEnabled(true);
+    }//GEN-LAST:event_JTLesCompMouseClicked
+
+    private void JTCompEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTCompEmpMouseClicked
+        JTRemoveComp.setEnabled(true);
+    }//GEN-LAST:event_JTCompEmpMouseClicked
 
     /**
      * @param args the command line arguments

@@ -230,6 +230,9 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JTLesCompMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -251,12 +254,16 @@
               </Table>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="JTCompEmpMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="JTAjoutComp">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ajouter &gt;&gt;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JTAjoutCompActionPerformed"/>
@@ -265,6 +272,7 @@
     <Component class="javax.swing.JButton" name="JTRemoveComp">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;&lt; Supprimer"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JTRemoveCompActionPerformed"/>
