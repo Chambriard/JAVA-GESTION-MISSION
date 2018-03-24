@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
@@ -304,6 +305,15 @@ public class Entreprise {
      */
     public void delCompMiss(Mission m, Competence c){
         m.delCompMiss(c);
+    }
+    public void delCompRequMiss(Mission m, Competence c, int r){
+        for(Map.Entry<Competence,Integer > entry : m.getCompReq().entrySet()) {
+            Competence key = entry.getKey();
+            Integer value = entry.getValue();
+            if(key.getId().equals(c.getId())){
+                value = value - r ;
+            }
+        }
     }
     
     /**

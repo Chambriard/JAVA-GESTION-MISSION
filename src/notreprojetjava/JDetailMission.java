@@ -121,7 +121,9 @@ public class JDetailMission extends javax.swing.JFrame {
             if(value < 1){
                 value = 0 ;
             }
-            modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+            if(value != 0){
+                modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+            }
             
         }
         compMission.setModel(modelCompMission);
@@ -884,6 +886,79 @@ public class JDetailMission extends javax.swing.JFrame {
     }//GEN-LAST:event_compMissionMouseClicked
 
     private void removeCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCompActionPerformed
+        int ligne = compMission.getSelectedRow();
+        int colonneId = 0 ;
+        int colonneLibelle = 1;
+        int colonneRequis = 2 ;
+        String id = (String) compMission.getValueAt(ligne, colonneId);
+        String libelle = (String) compMission.getValueAt(ligne, colonneLibelle);
+        String requisS = (String) compMission.getValueAt(ligne, colonneRequis);
+        Integer requis = Integer.parseInt(requisS);
+    
+        int requisSuppr = ((Integer) spnRemove.getValue()).intValue();
+      
+     
+        if(requis - requisSuppr <= 0){
+            
+            DefaultTableModel modelLesCompetences =(DefaultTableModel)  jtableLesCompetences.getModel();
+            modelLesCompetences.addRow(new Object[]{id,libelle});
+            jtableLesCompetences.setModel(modelLesCompetences);
+            
+            DefaultTableModel modelCompMission = new DefaultTableModel();
+            modelCompMission.addColumn("id");
+            modelCompMission.addColumn("libelle");
+            modelCompMission.addColumn("Requis");
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
+                Competence key = entry.getKey();
+                Integer value = entry.getValue();
+                for(Employe monEmp : maMission.equipe){
+                    if(monEmp.getCompetences().contains(key)){
+                        value = value - 1 ;
+                    }
+                }
+                if(key.getId().equals(id)){
+                        
+                    entreprise.delCompMiss(maMission, entreprise.recupCompById(id) );
+                    value = 0;
+                }
+                if(value < 1){
+                    value = 0 ;
+                }
+                if(!value.equals(0)){
+                    System.out.println(" COUCOU " + value);
+                    modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+                }
+            }
+            compMission.setModel(modelCompMission);
+            
+        }else{
+            DefaultTableModel modelCompMission = new DefaultTableModel();
+            modelCompMission.addColumn("id");
+            modelCompMission.addColumn("libelle");
+            modelCompMission.addColumn("Requis");
+            for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
+                Competence key = entry.getKey();
+                Integer value = entry.getValue();
+                for(Employe monEmp : maMission.equipe){
+                    if(monEmp.getCompetences().contains(key)){
+                        value = value - 1 ;
+                    }
+                }
+                if(key.getId().equals(id)){
+                    value = value - requisSuppr;
+                }
+                if(value < 1){
+                    value = 0 ;
+                }
+                if(value != 0){
+                    modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+                }
+            
+            }
+            entreprise.delCompRequMiss(maMission, entreprise.recupCompById(id), requisSuppr);
+            compMission.setModel(modelCompMission);
+        }
+        
         
     }//GEN-LAST:event_removeCompActionPerformed
 
