@@ -75,6 +75,8 @@ public class Employe implements IEntite {
      * @param c 
      */
     public void addComp(Competence c){
+        System.out.print("COUCOU3");
+        System.out.println(c.getId());
         lesCompetences.add(c);
     }
     

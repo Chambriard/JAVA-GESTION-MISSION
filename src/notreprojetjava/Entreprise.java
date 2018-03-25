@@ -226,9 +226,11 @@ public class Entreprise {
      * @throws FileNotFoundException
      * @throws ParseException 
      */
-    public void creerEmp(String nom, String prenom, String date) throws FileNotFoundException, ParseException{
+    public String creerEmp(String nom, String prenom, String date) throws FileNotFoundException, ParseException{
         // Récupération automatique de l'ID
-        listeEmployes.add(new Employe(String.valueOf(this.recupIdMaxEmp() + 1), nom, prenom, date));
+        int idEmp = this.recupIdMaxEmp() + 1 ;
+        listeEmployes.add(new Employe(String.valueOf(idEmp), nom, prenom, date));
+        return String.valueOf(idEmp );
     }
     
     /**
@@ -267,6 +269,10 @@ public class Entreprise {
      * @param c 
      */
     public void addCompEmp(Employe e, Competence c){
+        System.out.println("COUCOU2");
+        System.out.println(c.getId());
+        System.out.println(c.getLibelleFR());
+        System.out.println(e.toString());
         e.addComp(c);
     }
     
