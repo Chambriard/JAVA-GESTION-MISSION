@@ -50,7 +50,7 @@ public class Entreprise {
         CSVFMC.recupMissComp(listeCompetences, listeMissions);
         CSVFME = new CSVFileMissEmp();
         CSVFME.recupMissEmp(listeEmployes, listeMissions);
-        //generateStatut();
+        generateStatut();
         generateRaf();
     }
     
@@ -127,6 +127,15 @@ public class Entreprise {
         m.afficherEquipe();
     }
 
+    public String getIdCompByIdEmp(Employe e){
+        String idComp = "Compétences : ";
+        //System.out.println("Compétences de " + prenom + " " + nom + " : \n");
+        for(Competence c : e.getCompetences()){
+            idComp += c.getId() + "   ";
+        }
+        return idComp;
+    }
+    
     /**
      * Récupère l'id le plus grand de la liste des Employés
      * Utile pour attribuer un ID automatique à un nouvel employé
@@ -252,7 +261,8 @@ public class Entreprise {
      * @throws ParseException 
      */
     public void creerMission(String id, String libelle, String dateDeb, String dateFin, int nbMaxEmp) throws FileNotFoundException, ParseException{
-        listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin, 1));
+        //listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin, 1));
+        listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin));
     }
     
     /**

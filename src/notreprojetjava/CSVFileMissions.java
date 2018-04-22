@@ -52,7 +52,8 @@ public class CSVFileMissions extends CSVFile{
             //oldFile += sc.nextLine();
             String[] chaineDecoupe = null;
             chaineDecoupe = sc.nextLine().split(";");
-            listeMissions.add(new Mission(chaineDecoupe[0], chaineDecoupe[1], Integer.parseInt(chaineDecoupe[2]), chaineDecoupe[3], chaineDecoupe[4], Integer.parseInt(chaineDecoupe[5])));
+            //listeMissions.add(new Mission(chaineDecoupe[0], chaineDecoupe[1], Integer.parseInt(chaineDecoupe[2]), chaineDecoupe[3], chaineDecoupe[4], Integer.parseInt(chaineDecoupe[5])));
+            listeMissions.add(new Mission(chaineDecoupe[0], chaineDecoupe[1], Integer.parseInt(chaineDecoupe[2]), chaineDecoupe[3], chaineDecoupe[4]));
         }
         return listeMissions;        
     }

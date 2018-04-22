@@ -396,7 +396,7 @@ public class AjoutMission extends javax.swing.JFrame {
             
             try {
                 entreprise.creerMission("M" + entreprise.getListeMissions().size() + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
-                maMission = new Mission("M" + entreprise.getListeMissions().size() + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin, 1);
+                maMission = new Mission("M" + entreprise.getListeMissions().size() + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
                 int nbCompte = compMission.getColumnCount();
                 for (int i = 0; i < nbCompte; i++) {
                     String idMission = (String)compMission.getValueAt(i, 0);

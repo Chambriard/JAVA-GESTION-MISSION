@@ -30,7 +30,8 @@ public class Mission implements IEntite {
     ArrayList<Employe> equipe;
     
     // Constructeur
-    public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin, int statut) throws ParseException{
+    //public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin, int statut) throws ParseException{
+    public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin) throws ParseException{
         this.id = id;
         this.libelle = libelle;
         DateConvert dc = new DateConvert();
@@ -42,8 +43,8 @@ public class Mission implements IEntite {
         compRemp = new HashMap<Competence, Integer>();
         compReq = new HashMap<Competence, Integer>();
         equipe = new ArrayList<Employe>();
-        this.statut = statut;
-        //this.statut = generateStatut();
+        //this.statut = statut;
+        this.statut = generateStatut();
     }
     
    
@@ -132,7 +133,7 @@ public class Mission implements IEntite {
         return chaine ;
     }
 
-    public void generateStatut(){
+    public int generateStatut(){
         int st = 1;
         System.out.print(equipe.size());
         if(new Date().before(dateDeb)){
@@ -146,7 +147,7 @@ public class Mission implements IEntite {
                 st = 3;
             }
         }
-        setStatut(st);
+        return st;
     }
     
     /**
