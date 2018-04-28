@@ -828,6 +828,15 @@ public class JDetailMission extends javax.swing.JFrame {
     private void BTNSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSaveActionPerformed
         maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
         maMission.setLibelle(TFMLibelle.getText());
+        String datedeb = dateDebJ.getText() + "/" + dateDebM.getText() + "/" + dateDebA.getText();
+        String datefin = dateFinJ.getText() + "/" + dateFinM.getText() + "/" + dateFinA.getText();
+        try {
+            maMission.setDateDeb(datedeb);
+            maMission.setDateFin(datefin);
+        } catch (ParseException ex) {
+            Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         if(showConfirmDialog(null, "Êtes-vous certain de vouloir sauvegarder les informations ?", "", OK_CANCEL_OPTION) == 0){                
             try {
                 entreprise.saveMiss();

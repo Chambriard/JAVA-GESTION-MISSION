@@ -102,6 +102,16 @@ public class Mission implements IEntite {
     public void setLibelle(String l){
         libelle = l;
     }
+    
+    public void setDateDeb(String d) throws ParseException{
+        DateConvert dc = new DateConvert();
+        this.dateDeb = dc.convertStrDate(d);
+    }
+    
+    public void setDateFin(String d) throws ParseException{
+        DateConvert dc = new DateConvert();
+        this.dateFin = dc.convertStrDate(d);
+    }
         
     // Méthodes
 

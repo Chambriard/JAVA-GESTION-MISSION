@@ -5,10 +5,12 @@
  */
 package notreprojetjava;
 
+import java.awt.Rectangle;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import javax.swing.JPanel;
@@ -126,6 +128,7 @@ public class Accueil extends javax.swing.JFrame {
         ajoutMiss = new javax.swing.JButton();
         btnQuitter = new javax.swing.JButton();
         ajoutEmp = new javax.swing.JButton();
+        BTNRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -262,6 +265,14 @@ public class Accueil extends javax.swing.JFrame {
             }
         });
 
+        BTNRefresh.setBackground(new java.awt.Color(117, 169, 255));
+        BTNRefresh.setText("Actualiser");
+        BTNRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,7 +284,7 @@ public class Accueil extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -311,7 +322,9 @@ public class Accueil extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(ajoutMiss, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(ajoutEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                        .addGap(95, 95, 95))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BTNRefresh)
+                        .addGap(12, 12, 12))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblFiltre)
@@ -326,8 +339,13 @@ public class Accueil extends javax.swing.JFrame {
                     .addComponent(btnQuitter))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TPane, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(BTNRefresh)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -432,6 +450,59 @@ public class Accueil extends javax.swing.JFrame {
         framCreerEmploye.setVisible(true);
     }//GEN-LAST:event_ajoutEmpActionPerformed
 
+    private void BTNRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRefreshActionPerformed
+        TPane.setTitleAt(0, "Gestion des Missions");
+        TPane.setTitleAt(1, "Gestion des Employés");
+        TPane.setTitleAt(2, "Compétences de l'entreprise");
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("N°");
+        model.addColumn("Libellé");
+        model.addColumn("Statut");
+        model.addColumn("Reste à faire");
+
+        for(Mission maMission : entreprise.getListeMissions()){
+            model.addRow(new String[]{maMission.getId(),maMission.getLibelle(), maMission.colorStatut(), maMission.getRaf()});
+        }   
+        JTableMission.setModel(model);
+        TableColumnModel tcm = JTableMission.getColumnModel();
+        tcm.getColumn(0).setPreferredWidth(10);
+        tcm.getColumn(1).setPreferredWidth(200);
+        tcm.getColumn(2).setPreferredWidth(20);
+        tcm.getColumn(3).setPreferredWidth(500);
+        
+        
+        DefaultTableModel modelEmp = new DefaultTableModel();
+        modelEmp.addColumn("Numéro");
+        modelEmp.addColumn("Prénom");
+        modelEmp.addColumn("Nom");
+        for(Employe e : entreprise.getListeEmployes()){
+            modelEmp.addRow(new String[]{e.getId(),e.getPrenom(), e.getNom()});
+        }   
+        jTableEmp.setModel(modelEmp);  
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        
+        DefaultTableModel modelComp = new DefaultTableModel();
+        modelComp.addColumn("Numéro");
+        modelComp.addColumn("Libellé Anglais");
+        modelComp.addColumn("Libellé Français");
+        for(Competence c : entreprise.getListeCompetences()){
+            modelComp.addRow(new String[]{c.getId(),c.getLibelleEN(), c.getLibelleFR()});
+        }   
+        jTableComp.setModel(modelComp);  
+        TableColumnModel tcmComp = jTableComp.getColumnModel();
+        tcmComp.getColumn(0).setPreferredWidth(30);
+        tcmComp.getColumn(1).setPreferredWidth(350);
+        tcmComp.getColumn(2).setPreferredWidth(350);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        
+        for(Competence c : entreprise.getListeCompetences()){
+            cbFiltreComp.addItem(c.getLibelleFR());
+        }   
+    }//GEN-LAST:event_BTNRefreshActionPerformed
+
  
     /**
      * @param args the command line arguments
@@ -475,6 +546,7 @@ public class Accueil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BTNRefresh;
     private javax.swing.JTable JTableMission;
     private javax.swing.JTabbedPane TPane;
     private javax.swing.JButton ajoutEmp;
