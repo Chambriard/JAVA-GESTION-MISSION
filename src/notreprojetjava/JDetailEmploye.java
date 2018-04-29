@@ -5,8 +5,18 @@
  */
 package notreprojetjava;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.table.DefaultTableModel;
 import static notreprojetjava.JDetailMission.maMission;
 
@@ -101,6 +111,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
         JTRemoveComp = new javax.swing.JButton();
         BTNRetour = new javax.swing.JButton();
         LBLID = new javax.swing.JLabel();
+        BTNSave = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -196,6 +207,14 @@ public class JDetailEmploye extends javax.swing.JFrame {
 
         LBLID.setText("jLabel8");
 
+        BTNSave.setBackground(new java.awt.Color(132, 204, 132));
+        BTNSave.setText("Sauvegarder");
+        BTNSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNSaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -242,8 +261,10 @@ public class JDetailEmploye extends javax.swing.JFrame {
                     .addComponent(LBLID))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(349, 349, 349)
+                .addGap(293, 293, 293)
                 .addComponent(BTNRetour)
+                .addGap(18, 18, 18)
+                .addComponent(BTNSave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -286,7 +307,9 @@ public class JDetailEmploye extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(JTRemoveComp)
                         .addGap(45, 45, 45)
-                        .addComponent(BTNRetour)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTNRetour)
+                            .addComponent(BTNSave))
                         .addGap(98, 98, 98))))
         );
 
@@ -339,7 +362,30 @@ public class JDetailEmploye extends javax.swing.JFrame {
     }//GEN-LAST:event_JTRemoveCompActionPerformed
 
     private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
-        this.dispose();
+        switch(showConfirmDialog(null, "Attention, si vous quittez sans sauvegarder, toutes modifications sera perdue !\nVoulez-vous sauvegarder avant de quitter ?", "", YES_NO_CANCEL_OPTION)){                
+            
+            case JOptionPane.YES_OPTION :
+                monEmp.setNom(JTNomEmp.getText());
+                monEmp.setPrenom(JTPrenomEmp.getText());
+                String dateE = dateJ.getText() + "/" + dateM.getText() + "/" + dateA.getText();
+                try {
+                    monEmp.setDateE(dateE);
+                } catch (ParseException ex) {
+                    Logger.getLogger(JDetailEmploye.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    entreprise.saveEmp();
+                    showMessageDialog(null, "Sauvegarde de l'employé correctement effectuée !", "", INFORMATION_MESSAGE);
+                    entreprise.generateStatut();
+                    this.dispose();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case JOptionPane.NO_OPTION : this.dispose(); break;
+        }
     }//GEN-LAST:event_BTNRetourActionPerformed
 
     private void JTLesCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTLesCompMouseClicked
@@ -349,6 +395,29 @@ public class JDetailEmploye extends javax.swing.JFrame {
     private void JTCompEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTCompEmpMouseClicked
         JTRemoveComp.setEnabled(true);
     }//GEN-LAST:event_JTCompEmpMouseClicked
+
+    private void BTNSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSaveActionPerformed
+        monEmp.setNom(JTNomEmp.getText());
+        monEmp.setPrenom(JTPrenomEmp.getText());
+        String dateE = dateJ.getText() + "/" + dateM.getText() + "/" + dateA.getText();
+        try {
+            monEmp.setDateE(dateE);
+        } catch (ParseException ex) {
+            Logger.getLogger(JDetailEmploye.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(showConfirmDialog(null, "Êtes-vous certain de vouloir sauvegarder les informations ?", "", OK_CANCEL_OPTION) == 0){                
+            try {
+                entreprise.saveEmp();
+                showMessageDialog(null, "Sauvegarde de l'employé correctement effectuée !", "", INFORMATION_MESSAGE);
+                entreprise.generateStatut();
+                this.dispose();
+                
+            } catch (IOException ex) {
+                Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_BTNSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -391,6 +460,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNRetour;
+    private javax.swing.JButton BTNSave;
     private javax.swing.JButton JTAjoutComp;
     private javax.swing.JTable JTCompEmp;
     private javax.swing.JTable JTLesComp;

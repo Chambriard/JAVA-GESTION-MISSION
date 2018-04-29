@@ -58,6 +58,15 @@ public class Employe implements IEntite {
         nom = n;
     }
     
+    public void setPrenom(String p){
+        prenom = p;
+    }
+    
+    public void setDateE(String d) throws ParseException{
+        DateConvert dc = new DateConvert();
+        this.dateE = dc.convertStrDate(d);
+    }
+    
     // Méthodes
     
     /**

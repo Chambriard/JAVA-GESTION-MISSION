@@ -856,6 +856,14 @@ public class JDetailMission extends javax.swing.JFrame {
             case JOptionPane.YES_OPTION :
                 maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
                 maMission.setLibelle(TFMLibelle.getText());
+                String datedeb = dateDebJ.getText() + "/" + dateDebM.getText() + "/" + dateDebA.getText();
+                String datefin = dateFinJ.getText() + "/" + dateFinM.getText() + "/" + dateFinA.getText();
+                try {
+                    maMission.setDateDeb(datedeb);
+                    maMission.setDateFin(datefin);
+                } catch (ParseException ex) {
+                    Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try {
                     entreprise.saveMiss();
                     showMessageDialog(null, "Sauvegarde de la mission correctement effectuée !", "", INFORMATION_MESSAGE);
