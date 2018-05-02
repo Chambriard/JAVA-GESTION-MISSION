@@ -198,12 +198,14 @@ public class Entreprise {
         int i = 0;
         Mission res = null;
         while((!trouve) && (i < listeMissions.size())){
+            System.out.println("BONJOUR");
             if(listeMissions.get(i).getId().equals(id)){
                 trouve = true;
                 res = listeMissions.get(i);
             }
             i++;
         }
+        System.out.println("BONJOUR res = " + res);
         return res;
     }
     
@@ -302,6 +304,9 @@ public class Entreprise {
      * @param nb 
      */
     public void addCompMiss(Mission m, Competence c, Integer nb){
+        System.out.println("m : " + m.toString());
+        System.out.println("c : " + c.toString());
+        System.out.println("nb : " + nb.toString());
         m.addCompMiss(c, nb);
     }
     

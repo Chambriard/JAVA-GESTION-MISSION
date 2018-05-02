@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package notreprojetjava;
 
+
+import notreprojetjava.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,18 +22,16 @@ import static notreprojetjava.JDetailMission.maMission;
  *
  * @author achambri
  */
-public class AjoutMission extends javax.swing.JFrame {
+public class AjoutMission2 extends javax.swing.JFrame {
 
     /**
      * Creates new form AjoutMission
      */
     static Entreprise entreprise;
     private Mission maMission ;
-    private ArrayList<Competence> lesCompetences ;
-    public AjoutMission(Entreprise entreprise) {
+    public AjoutMission2(Entreprise entreprise) {
         initComponents();
         ajouterComp.setEnabled(true);
-        lesCompetences = new ArrayList<Competence>();
         this.entreprise = entreprise ;
         DefaultTableModel modelLesComp = new DefaultTableModel();
         modelLesComp.addColumn("id");
@@ -50,7 +49,20 @@ public class AjoutMission extends javax.swing.JFrame {
         compMission.setModel(modelCompMission);
         
         
-       
+        DefaultTableModel modelEmp = new DefaultTableModel();
+        modelEmp.addColumn("id");
+        modelEmp.addColumn("Nom");
+        modelEmp.addColumn("Prenom");
+        for(Employe monEmpDuCSVFile : entreprise.getListeEmployes()){
+            modelEmp.addRow(new String[]{monEmpDuCSVFile.getId(), monEmpDuCSVFile.getNom(),monEmpDuCSVFile.getPrenom()});
+        }
+        lesEmp.setModel(modelEmp);
+        
+        DefaultTableModel modelEmpMiss = new DefaultTableModel();
+        modelEmpMiss.addColumn("id");
+        modelEmpMiss.addColumn("Nom");
+        modelEmpMiss.addColumn("Prenom");
+        lesEmpDeLaMiss.setModel(modelEmpMiss);
         
          //initComponents();
          this.setDefaultCloseOperation(2);
@@ -99,6 +111,22 @@ public class AjoutMission extends javax.swing.JFrame {
         BTNRetour = new javax.swing.JButton();
         message = new javax.swing.JLabel();
         removeComp = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lesEmp = new javax.swing.JTable(){
+            public boolean isCellEditable(int d, int c){
+                return false;
+            }
+        };
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        lesEmpDeLaMiss = new javax.swing.JTable(){
+            public boolean isCellEditable(int d, int c){
+                return false;
+            }
+        };
+        ajoutEmp = new javax.swing.JButton();
+        removeEmp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,6 +226,62 @@ public class AjoutMission extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Liste des employés :");
+
+        lesEmp.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        lesEmp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lesEmpMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(lesEmp);
+
+        jLabel4.setText("Employés affectés à la mission :");
+
+        lesEmpDeLaMiss.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        lesEmpDeLaMiss.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lesEmpDeLaMissMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(lesEmpDeLaMiss);
+
+        ajoutEmp.setText("Ajouter >>");
+        ajoutEmp.setEnabled(false);
+        ajoutEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajoutEmpActionPerformed(evt);
+            }
+        });
+
+        removeEmp.setText("<< Supprimer");
+        removeEmp.setEnabled(false);
+        removeEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeEmpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,41 +292,53 @@ public class AjoutMission extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(11, 11, 11)
+                                        .addGap(34, 34, 34)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGap(23, 23, 23)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel14)
-                                                        .addGap(29, 29, 29)
-                                                        .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(25, 25, 25)
-                                                        .addComponent(ajouterComp)))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE))
+                                                .addComponent(jLabel14)
+                                                .addGap(29, 29, 29)
+                                                .addComponent(spnComp, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(BTNRetour)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(BTNAjout))))
+                                                .addGap(25, 25, 25)
+                                                .addComponent(ajouterComp)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(removeComp, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addComponent(removeComp, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(0, 440, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel12)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(100, 100, 100)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(BTNRetour)
+                                        .addGap(49, 49, 49)
+                                        .addComponent(BTNAjout))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(ajoutEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(removeEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -335,16 +431,30 @@ public class AjoutMission extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(removeComp)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BTNAjout)
-                            .addComponent(BTNRetour)))
-                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ajoutEmp)
                         .addGap(18, 18, 18)
-                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(86, Short.MAX_VALUE))
+                        .addComponent(removeEmp)
+                        .addGap(105, 105, 105)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BTNRetour)
+                            .addComponent(BTNAjout)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(message, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -394,37 +504,28 @@ public class AjoutMission extends javax.swing.JFrame {
         String erreur = "" ;
         String newLine = System.getProperty("line.separator");
         if(jTLibelle.getText().equals("")){
-            erreur += " veuillez entrer un libellé" + newLine;
+            erreur += "veuillez entrer un libellé" + newLine;
         }
         if(jTNbEmpMax.getText().equals("")){
-            erreur += " veuillez entrer un nombre maximum" + newLine;
+            erreur += "veuillez entrer un nombre maximum" + newLine;
         }
         if(dateDebA.getText().equals("")){
-            erreur += " veuillez entrer l'année de la date de début" + newLine;
+            erreur += "veuillez entrer l'année de la date de début" + newLine;
         }
         if(dateDebJ.getText().equals("")){
-            erreur += " veuillez entrer le jour de la date de début" + newLine;
+            erreur += "veuillez entrer le jour de la date de début" + newLine;
         }
         if(dateDebM.getText().equals("")){
-            erreur += " veuillez entrer le mois de la date de début" + newLine;
+            erreur += "veuillez entrer le mois de la date de début" + newLine;
         }
         if(dateFinA.getText().equals("")){
-            erreur += " veuillez entrer l'année de la date de Fin" + newLine;
+            erreur += "veuillez entrer l'année de la date de Fin" + newLine;
         }
         if(dateFinJ.getText().equals("")){
-            erreur += " veuillez entrer le jour de la date de Fin" + newLine;
+            erreur += "veuillez entrer le jour de la date de Fin" + newLine;
         }
         if(dateFinM.getText().equals("")){
-            erreur += " veuillez entrer le mois de la date de Fin" + newLine;
-        }
-        if(Integer.parseInt(dateFinA.getText()) < Integer.parseInt(dateDebA.getText())){
-            erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
-        } else {
-            if(Integer.parseInt(dateFinA.getText()) == Integer.parseInt(dateDebA.getText())){
-                if(Integer.parseInt(dateFinM.getText()) < Integer.parseInt(dateDebM.getText())){
-                    erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
-                }
-            }
+            erreur += "veuillez entrer le mois de la date de Fin" + newLine;
         }
         
         
@@ -442,34 +543,21 @@ public class AjoutMission extends javax.swing.JFrame {
             dateFin += dateFinA.getText();
             
             try {
-                String id = "M" + entreprise.getListeMissions().size() ;
-                entreprise.creerMission(id + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
-                maMission = new Mission(id + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
-//                entreprise.creerMission("MDD" + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
-//                maMission = new Mission("MDD" + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
-                int nbCompte = compMission.getRowCount();
+                entreprise.creerMission("M" + entreprise.getListeMissions().size() + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
+                maMission = new Mission("M" + entreprise.getListeMissions().size() + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
+                int nbCompte = compMission.getColumnCount();
                 for (int i = 0; i < nbCompte; i++) {
-//                    System.out.println("BONJOUR");
-                    String idComp = (String)compMission.getValueAt(i, 0);
-//                    System.out.println("idComp = " + idComp);
+                    String idMission = (String)compMission.getValueAt(i, 0);
                     String nbRequis = (String)compMission.getValueAt(i, 2);
-//                    System.out.println("nbRequis = " + nbRequis);
-                    System.out.print(" id mission :"  + maMission.getId());
-                    System.out.print(" mission :"  + entreprise.recupMissById(maMission.getId()).toString());
-                    entreprise.addCompMiss(entreprise.recupMissById(maMission.getId()), entreprise.recupCompById(idComp), Integer.parseInt(nbRequis));
+                    entreprise.addCompMiss(maMission, entreprise.recupCompById(idMission), Integer.parseInt(nbRequis));
                 }
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(AjoutMission.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AjoutMission2.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ParseException ex) {
-                Logger.getLogger(AjoutMission.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AjoutMission2.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
-                System.out.println("mission = " );
-                entreprise.afficherMissComp(maMission);
-                entreprise.afficherMissions();
-                //entreprise.recupMissById(maMission.getId()).afficherCompReq();
                 entreprise.saveMiss();
-                System.out.println("BONJOUR");
                 jTLibelle.setText("");
                 jTNbEmpMax.setText("");
                 dateDebA.setText("");
@@ -486,17 +574,9 @@ public class AjoutMission extends javax.swing.JFrame {
 
                 compMission.setModel(modelCompMission);
                 
-                DefaultTableModel modelLesComp = new DefaultTableModel();
-                modelLesComp.addColumn("id");
-                modelLesComp.addColumn("libelle");
-                for(Competence maCompetencesCSV : entreprise.getListeCompetences()){
-                        modelLesComp.addRow(new String[]{maCompetencesCSV.getId(), maCompetencesCSV.getLibelleFR()});
-                }
-                jtableLesCompetences.setModel(modelLesComp);
-                
                 message.setText("Mission bien ajoutée");
             } catch (IOException ex) {
-                Logger.getLogger(AjoutMission.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AjoutMission2.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
@@ -606,6 +686,185 @@ public class AjoutMission extends javax.swing.JFrame {
         spnComp.setEnabled(true);
     }//GEN-LAST:event_compMissionMouseClicked
 
+    private void lesEmpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lesEmpMouseClicked
+        // TODO add your handling code here:
+        ajoutEmp.setEnabled(true);
+    }//GEN-LAST:event_lesEmpMouseClicked
+
+    private void lesEmpDeLaMissMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lesEmpDeLaMissMouseClicked
+     //   removeEmp.setEnabled(true);
+        removeEmp.setEnabled(true);
+    }//GEN-LAST:event_lesEmpDeLaMissMouseClicked
+
+    private void ajoutEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajoutEmpActionPerformed
+        // TODO add your handling code here:
+
+        //Ajoute l'employé dans la Jtable lesEmpDeLaMiss
+        int ligne = lesEmp.getSelectedRow();
+        int colonneId = 0 ;
+        int colonneNom = 1;
+        int colonnePrenom = 2 ;
+        String idEmp = (String) lesEmp.getValueAt(ligne, colonneId);
+        String nom = (String) lesEmp.getValueAt(ligne, colonneNom);
+        String prenom = (String) lesEmp.getValueAt(ligne, colonnePrenom);
+        
+ 
+        Employe e = entreprise.recupEmpById(idEmp);
+
+        DefaultTableModel modelLesEmpDeLaMission =(DefaultTableModel)  lesEmpDeLaMiss.getModel();
+        modelLesEmpDeLaMission.addRow(new Object[]{idEmp,nom,prenom});
+        lesEmpDeLaMiss.setModel(modelLesEmpDeLaMission);
+        //Enlève l'employé das Jtable lesEmp
+        DefaultTableModel modelLesEmp =(DefaultTableModel)  lesEmp.getModel();
+        modelLesEmp.removeRow(ligne);
+        lesEmp.setModel(modelLesEmp);
+        
+        DefaultTableModel modelCompMission = (DefaultTableModel)  compMission.getModel();
+        ArrayList<Integer> aSuppr = new ArrayList<Integer>();
+        int nbLigne = compMission.getRowCount() ;
+        for(int i = 0; i < nbLigne ;i++){
+//            System.out.println("COUCOU1");
+//            System.out.println("COUCOU1");
+            String idComp = (String) compMission.getValueAt(i, 0);
+            for(Competence CompEmp : entreprise.recupEmpById(idEmp).getCompetences()){
+//                System.out.println("COUCOU2");
+//                System.out.println("COUCOU2");
+//                System.out.println("idComp : " + idComp);
+//                System.out.println("CompEmp : " + CompEmp);
+                if(idComp.equals(CompEmp.getId())){
+//                    System.out.println("COUCOU3");
+//                    System.out.println("COUCOU3");
+
+                    int colonneLibelle = 1;
+                    int colonneRequis = 2 ;
+                    System.out.println("R1");
+                    String libelle = (String) compMission.getValueAt(i, colonneLibelle);
+                    System.out.println("R2");
+                    String requisString = (String) compMission.getValueAt(i, colonneRequis);
+                    System.out.println("R3");
+                    Integer requis = Integer.parseInt(requisString);
+                    System.out.println("R4");
+                    requis = Integer.parseInt(requisString);
+                    System.out.println("R5");
+                    requis = requis - 1 ;
+                    aSuppr.add(i);
+                    modelCompMission.addRow(new Object[]{idComp,libelle,requis});
+                    
+//                    if(requis > 0){
+//                        modelCompMission.addRow(new Object[]{idComp,libelle,requis});
+//                    }
+//                    else{
+//                        modelCompMission.removeRow(i);
+//                    }
+                }  
+            }
+        }
+        System.out.println("BONJOUR");
+        System.out.println("BONJOUR");
+        System.out.println("size : " + aSuppr.size() );
+        for(int y = 0 ; y < aSuppr.size() ; y++){
+            System.out.println("aSuppr : " + aSuppr.get(y) );
+            modelCompMission.removeRow(0);
+        }
+                     
+        
+        //compMission.setModel(modelCompMission);
+        //Ajoute l'employé dans la liste d'employé de la mission et réduir le requis de jtable compMission
+
+//        DefaultTableModel modelComMission =(DefaultTableModel)  compMission.getModel();
+//        ajoutEmp.setEnabled(false);
+        //        for(Employe unEmp : entreprise.getListeEmployes() ){
+            //            if(unEmp.getId().equals(id)){
+                //                maMission.equipe.add(unEmp);
+                //                for(int i=0; i<compMission.getRowCount();i++){
+                    //                    String idCom = (String) compMission.getValueAt(i, 0);
+                    //                    String libelle = (String) compMission.getValueAt(i, 1);
+                    //                    String nbRequisS = (String) compMission.getValueAt(i, 2);
+                    //                    Integer nbRequisI = Integer.parseInt(nbRequisS);
+                    //                    for(Competence uneComp : unEmp.getCompetences()){
+                        //                        if(uneComp.getId().equals(idCom)){
+                            //                            nbRequisI = nbRequisI - 1 ;
+                            //                            modelComMission.removeRow(i);
+                            //                            if(nbRequisI > 0){
+                                //                                modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
+                                //                                compMission.setModel(modelComMission);
+                                //                            }
+                            //
+                            //                        }
+                        //                    }
+                    //                }
+                //            }
+            //        }
+    }//GEN-LAST:event_ajoutEmpActionPerformed
+
+    private void removeEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeEmpActionPerformed
+        // TODO add your handling code here:
+
+        int ligne = lesEmpDeLaMiss.getSelectedRow();
+        int colonneId = 0 ;
+        int colonneNom = 1;
+        int colonnePrenom = 2 ;
+        String id = (String) lesEmpDeLaMiss.getValueAt(ligne, colonneId);
+        String nom = (String) lesEmpDeLaMiss.getValueAt(ligne, colonneNom);
+        String prenom = (String) lesEmpDeLaMiss.getValueAt(ligne, colonnePrenom);
+
+        DefaultTableModel modelLesEmp =(DefaultTableModel)  lesEmp.getModel();
+        modelLesEmp.addRow(new Object[]{id,nom,prenom});
+        lesEmp.setModel(modelLesEmp);
+        DefaultTableModel modelLesEmpMission =(DefaultTableModel) lesEmpDeLaMiss.getModel();
+        modelLesEmpMission.removeRow(ligne);
+        lesEmpDeLaMiss.setModel(modelLesEmpMission);
+
+        System.out.println(maMission.getCompRemp());
+        Employe e = entreprise.recupEmpById(id);
+        entreprise.delEmpMiss(maMission, e);
+        System.out.println(maMission.getEquipe());
+        System.out.println(maMission.getCompRemp());
+
+        //Retirer employé des liste et rajouter compétence
+
+        DefaultTableModel modelCompMission = new DefaultTableModel();
+        modelCompMission.addColumn("id");
+        modelCompMission.addColumn("libelle");
+        modelCompMission.addColumn("Requis");
+        for(HashMap.Entry<Competence,Integer> entry : maMission.compRemp.entrySet()){
+            Competence key = entry.getKey();
+            Integer value = entry.getValue();
+
+            modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
+
+        }
+        compMission.setModel(modelCompMission);
+        entreprise.generateStatut(maMission);
+        removeEmp.setEnabled(false);
+        /*for(Employe unEmp : entreprise.getListeEmployes() ){
+            if(unEmp.getId().equals(id)){
+                maMission.equipe.remove(unEmp);
+                //PROBLEME
+                for(int i=0; i<compMission.getRowCount();i++){
+                    String idCom = (String) compMission.getValueAt(i, 0);
+                    String libelle = (String) compMission.getValueAt(i, 1);
+                    String nbRequisS = (String) compMission.getValueAt(i, 2);
+                    Integer nbRequisI = Integer.parseInt(nbRequisS);
+                    System.out.println(idCom);
+                    System.out.println(libelle);
+                    System.out.println(nbRequisS);
+                    //System.out.println(unEmp.toString());
+                    /*for(Competence uneComp : unEmp.getCompetences()){
+                        if(uneComp.getId().equals(idCom)){
+                            nbRequisI = nbRequisI + 1 ;
+                            modelComMission.removeRow(i);
+                            modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
+                            compMission.setModel(modelComMission);
+                            nbRequisI = 0 ;
+                        }
+                    }
+                    modelComMission.addRow(new Object[]{idCom,libelle,nbRequisI.toString()});
+                }
+            }
+        }*/
+    }//GEN-LAST:event_removeEmpActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -623,14 +882,15 @@ public class AjoutMission extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AjoutMission2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AjoutMission2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AjoutMission2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AjoutMission.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AjoutMission2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -648,6 +908,7 @@ public class AjoutMission extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BTNAjout;
     private javax.swing.JButton BTNRetour;
+    private javax.swing.JButton ajoutEmp;
     private javax.swing.JButton ajouterComp;
     private javax.swing.JTable compMission;
     private javax.swing.JTextField dateDebA;
@@ -663,6 +924,8 @@ public class AjoutMission extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -670,11 +933,16 @@ public class AjoutMission extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextField jTLibelle;
     private javax.swing.JTextField jTNbEmpMax;
     private javax.swing.JTable jtableLesCompetences;
+    private javax.swing.JTable lesEmp;
+    private javax.swing.JTable lesEmpDeLaMiss;
     private javax.swing.JLabel message;
     private javax.swing.JButton removeComp;
+    private javax.swing.JButton removeEmp;
     private javax.swing.JSpinner spnComp;
     // End of variables declaration//GEN-END:variables
 }
