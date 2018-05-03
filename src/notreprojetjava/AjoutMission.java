@@ -417,12 +417,14 @@ public class AjoutMission extends javax.swing.JFrame {
         if(dateFinM.getText().equals("")){
             erreur += " veuillez entrer le mois de la date de Fin" + newLine;
         }
-        if(Integer.parseInt(dateFinA.getText()) < Integer.parseInt(dateDebA.getText())){
-            erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
-        } else {
-            if(Integer.parseInt(dateFinA.getText()) == Integer.parseInt(dateDebA.getText())){
-                if(Integer.parseInt(dateFinM.getText()) < Integer.parseInt(dateDebM.getText())){
-                    erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
+        if(!dateDebA.getText().equals("") && !dateFinM.getText().equals("") && !dateDebM.getText().equals("") && !dateFinA.getText().equals("") ){
+            if(Integer.parseInt(dateFinA.getText()) < Integer.parseInt(dateDebA.getText())){
+                erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
+            } else {
+                if(Integer.parseInt(dateFinA.getText()) == Integer.parseInt(dateDebA.getText())){
+                    if(Integer.parseInt(dateFinM.getText()) < Integer.parseInt(dateDebM.getText())){
+                        erreur += " veillez entrer une date de fin supérieur à une date de début " + newLine;
+                    }
                 }
             }
         }
@@ -442,9 +444,9 @@ public class AjoutMission extends javax.swing.JFrame {
             dateFin += dateFinA.getText();
             
             try {
-                String id = "M" + entreprise.getListeMissions().size() ;
-                entreprise.creerMission(id + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
-                maMission = new Mission(id + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
+                String id = "M" + (entreprise.getListeMissions().size() + 1) ;
+                entreprise.creerMission(id ,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
+                maMission = new Mission(id ,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
 //                entreprise.creerMission("MDD" + 1,jTLibelle.getText() , dateDeb, dateFin, Integer.parseInt(jTNbEmpMax.getText()));
 //                maMission = new Mission("MDD" + 1,jTLibelle.getText(), Integer.parseInt(jTNbEmpMax.getText()), dateDeb, dateFin);
                 int nbCompte = compMission.getRowCount();

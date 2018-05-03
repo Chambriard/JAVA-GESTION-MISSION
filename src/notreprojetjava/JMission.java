@@ -122,7 +122,7 @@ public class JMission extends javax.swing.JFrame {
             //frameDetailMission.setVisible(true);
             for(Mission maMission : entreprise.getListeMissions()){
                 if(maMission.getId().equals(codeMiss)){
-                    frameDetailMission = new JDetailMission(entreprise, maMission);
+                //    frameDetailMission = new JDetailMission(entreprise, maMission);
                     frameDetailMission.setVisible(true);
                 }
             }
