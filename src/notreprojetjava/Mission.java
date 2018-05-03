@@ -25,6 +25,7 @@ public class Mission implements IEntite {
     private Date dateFin;
     private int statut;
     private String raf;
+    private boolean retard;
     HashMap<Competence, Integer> compRemp;
     HashMap<Competence, Integer> compReq;
     ArrayList<Employe> equipe;
@@ -39,6 +40,7 @@ public class Mission implements IEntite {
         this.dateFin = dc.convertStrDate(dateFin);
         this.nbMaxEmp = nbMaxEmp;
         this.raf = "";
+        this.retard = false;
         
         compRemp = new HashMap<Competence, Integer>();
         compReq = new HashMap<Competence, Integer>();
@@ -143,20 +145,63 @@ public class Mission implements IEntite {
         return chaine ;
     }
 
+    /**
+     * Retourne un code html pour mettre la pastille en couleur selon le statut
+     * @param s
+     * @return 
+     */
+    public String colorStatut(){
+        String color = "";
+        switch(statut){
+            case 1 : color = "<html><font color = red >∙</font></html>"; break;
+            case 2 : color = "<html><font color = orange >∙</font></html>"; break; 
+            case 3 : color = "<html><font color = green >∙</font></html>"; break; 
+            case 4 : color = "<html><font color = black >∙</font></html>"; break; 
+        }
+        return color;
+    }
+    
+    
+    public void changeStatut(){
+        switch (statut){
+            case 1 :
+                if((equipe.size() == nbMaxEmp) && (checkCompRemp()))
+                    setStatut(2);
+                break;
+            case 2 :
+                if(new Date().after(dateDeb))
+                    setStatut(3);
+                break;
+            case 3 :
+                if(new Date().after(dateFin))
+                    setStatut(4);
+                break;
+        }
+    }
+    
     public int generateStatut(){
         int st = 1;
         System.out.print(equipe.size());
-        if(new Date().before(dateDeb)){
-            if(!eqNotComplete() && checkCompRemp())
-                st = 2;
+        if((eqNotComplete() || !checkCompRemp()) && (new Date().after(dateDeb))){
+            st = 1;
+            retard = true;
         }
-        else{
-            if(new Date().after(dateFin))
-                st = 4;
+        else {
+            if(new Date().before(dateDeb)){
+                if(!eqNotComplete() && checkCompRemp())
+                    st = 2;
+            }
             else{
-                st = 3;
+                if(new Date().after(dateFin))
+                    st = 4;
+                else{
+                    st = 3;
+                }
             }
         }
+        System.out.println("NOUVEAU STATUT : " + st);
+        setStatut(st);
+        colorStatut();
         return st;
     }
     
@@ -169,6 +214,9 @@ public class Mission implements IEntite {
         switch(statut){
             case 1 :
                 raf += "<html><font color = red >";
+                if(retard){
+                    raf += "<strong>RETARD DE PLANNING</strong>";
+                }
                 // Ajout de l'état de l'équipe si celle-ci n'est pas complète
                 if(eqNotComplete())
                     raf += "<strong>Equipe : </strong>" + equipe.size() + "/" + nbMaxEmp;
@@ -188,6 +236,12 @@ public class Mission implements IEntite {
                 raf += "</font></html>";
                 break;
             
+            case 2 : raf = "<html><strong><font color = orange >OK ✔ En attente de démarrage</strong></font></html>"; break;
+            
+            case 3 : raf = "<html><strong><font color = green >OK ✔ En cours</strong></font></html>"; break;
+            
+            case 4 : raf = "<html><strong><font color = black >Mission Terminée</strong></font></html>"; break;
+                
             default : raf = "<html><strong><font color = green >OK ✔</strong></font></html>"; break;
             /*case 2 :
                 raf = "Mission planifiée"; break;
@@ -290,6 +344,55 @@ public class Mission implements IEntite {
         }
     }
     
+    public Employe[] prediction (ArrayList<Employe> listeEmployes) throws ParseException{
+
+        HashMap<Employe, Integer> compCommunes = new HashMap<Employe, Integer>();
+        Employe[] prediction = new Employe[3];
+        
+        
+            
+                for(Employe e : listeEmployes){
+                    Integer cpt = 0;
+                    ArrayList<Competence> listeC = e.getCompetences();
+                    for(Competence c : listeC){
+                        if(compReq.containsKey(c)){
+                            cpt++;
+                        }
+                    }
+                    compCommunes.put(e, cpt);
+                }
+                
+                for (Map.Entry e : compCommunes.entrySet()){
+                        System.out.println(e.getKey());
+                        System.out.println(e.getValue());
+                    }
+                
+                Employe employe = null;
+                for(int i=0; i < 3; i++){
+                    if(i!=0)
+                        compCommunes.remove(prediction[i-1]);
+                    int cptMax = 0;
+                    Date anciennete = new Date();
+                    for (Map.Entry e : compCommunes.entrySet()){
+                        employe = (Employe)e.getKey();
+                           
+                        if(((int)e.getValue() == cptMax) && employe.getDate().before(anciennete)){
+                            anciennete = employe.getDate();
+                            prediction[i] = (Employe)e.getKey();
+                        }
+                                
+                        if((int)e.getValue() > cptMax){
+                            cptMax = (int)e.getValue();
+                            anciennete = employe.getDate();
+                            prediction[i] = (Employe)e.getKey();
+                        }
+                    }
+                }
+ 
+            return prediction;
+        }
+
+    
     /**
      * Remplace un employé par un autre lorsque le statut de la mission est 2.
      * Si le nouvel employé ne complète pas les compétences, l'ancienne équipe est rétablie.
@@ -321,39 +424,7 @@ public class Mission implements IEntite {
         }
     }
     
-    /**
-     * Retourne un code html pour mettre la pastille en couleur selon le statut
-     * @param s
-     * @return 
-     */
-    public String colorStatut(){
-        String color = "";
-        switch(statut){
-            case 1 : color = "<html><font color = red >∙</font></html>"; break;
-            case 2 : color = "<html><font color = orange >∙</font></html>"; break; 
-            case 3 : color = "<html><font color = green >∙</font></html>"; break; 
-            case 4 : color = "<html><font color = black >∙</font></html>"; break; 
-        }
-        return color;
-    }
     
-    
-    public void changeStatut(){
-        switch (statut){
-            case 1 :
-                if((equipe.size() == nbMaxEmp) && (checkCompRemp()))
-                    setStatut(2);
-                break;
-            case 2 :
-                if(new Date().after(dateDeb))
-                    setStatut(3);
-                break;
-            case 3 :
-                if(new Date().after(dateFin))
-                    setStatut(4);
-                break;
-        }
-    }
     
     public boolean checkCompRemp(){
         boolean check = true;

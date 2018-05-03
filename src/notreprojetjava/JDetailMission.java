@@ -39,8 +39,9 @@ public class JDetailMission extends javax.swing.JFrame {
      */
     static Mission maMission ;
     static Entreprise entreprise;
+    private ArrayList<Employe> eDispos = new ArrayList<Employe>();
     
-    public JDetailMission(Entreprise entreprise, Mission m) {
+    public JDetailMission(Entreprise entreprise, Mission m) throws ParseException {
         //this.setUndecorated(true);
         //this.setDefaultLookAndFeelDecorated(false);
         
@@ -84,6 +85,7 @@ public class JDetailMission extends javax.swing.JFrame {
         modelEmp.addColumn("id");
         modelEmp.addColumn("Nom");
         modelEmp.addColumn("Prenom");
+        
         for(Employe monEmpDuCSVFile : entreprise.getListeEmployes()){
             boolean missione = false ;
             Iterator<Employe>  monEmpDeLaMission  = maMission.equipe.iterator();
@@ -94,6 +96,7 @@ public class JDetailMission extends javax.swing.JFrame {
             }
             if(!missione){
                 modelEmp.addRow(new String[]{monEmpDuCSVFile.getId(), monEmpDuCSVFile.getNom(),monEmpDuCSVFile.getPrenom()});
+                eDispos.add(monEmpDuCSVFile);
             }
         }
         lesEmp.setModel(modelEmp);
@@ -146,6 +149,13 @@ public class JDetailMission extends javax.swing.JFrame {
                 modelLesComp.addRow(new String[]{maCompetencesCSV.getId(), maCompetencesCSV.getLibelleFR()});
             }
         }
+        
+        Employe[] prediction = m.prediction(eDispos);
+        //Employe[] prediction = m.prediction(entreprise.getListeEmployes());
+        LBLPred1.setText("<html><font color = green >" + prediction[0].getId() + " : " + prediction[0].getPrenom() + " " + prediction[0].getNom() + "</font></html>");
+        LBLPred2.setText("<html><font color = green >" + prediction[1].getId() + " : " + prediction[1].getPrenom() + " " + prediction[1].getNom() + "</font></html>");
+        LBLPred3.setText("<html><font color = green >" + prediction[2].getId() + " : " + prediction[2].getPrenom() + " " + prediction[2].getNom() + "</font></html>");
+        
         jtableLesCompetences.setModel(modelLesComp);
         this.setDefaultCloseOperation(2);
     }
@@ -221,6 +231,10 @@ public class JDetailMission extends javax.swing.JFrame {
         removeComp = new javax.swing.JButton();
         spnRemove = new javax.swing.JSpinner();
         lblCompEmp = new javax.swing.JLabel();
+        LBLPrediction = new javax.swing.JLabel();
+        LBLPred1 = new javax.swing.JLabel();
+        LBLPred2 = new javax.swing.JLabel();
+        LBLPred3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -411,6 +425,14 @@ public class JDetailMission extends javax.swing.JFrame {
 
         lblCompEmp.setText("jLabel17");
 
+        LBLPrediction.setText("Employés conseillés :");
+
+        LBLPred1.setText("jLabel17");
+
+        LBLPred2.setText("jLabel17");
+
+        LBLPred3.setText("jLabel17");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -430,7 +452,15 @@ public class JDetailMission extends javax.swing.JFrame {
                 .addGap(358, 358, 358))
             .addGroup(layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jLabel13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(LBLPrediction)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LBLPred1)
+                            .addComponent(LBLPred3)
+                            .addComponent(LBLPred2)))
+                    .addComponent(jLabel13))
                 .addGap(145, 145, 145)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -485,13 +515,13 @@ public class JDetailMission extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(100, 100, 100)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(97, 97, 97)
-                                .addComponent(jLabel11)))
+                                .addComponent(jLabel11))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(100, 100, 100)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -557,14 +587,25 @@ public class JDetailMission extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addComponent(jLabel8)
                                 .addComponent(dateFinA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(TFMLibelle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LBLPred1)
+                            .addComponent(LBLPrediction))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LBLPred2)
+                        .addGap(12, 12, 12))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(TFMLibelle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(LBLStatut))
+                    .addComponent(LBLStatut)
+                    .addComponent(LBLPred3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
@@ -617,7 +658,7 @@ public class JDetailMission extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTNSave)
                     .addComponent(BTNRetour))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         pack();
@@ -661,6 +702,18 @@ public class JDetailMission extends javax.swing.JFrame {
                 modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
             
             }
+            Employe[] prediction;
+            try {
+                eDispos.remove(e);
+                prediction = maMission.prediction(eDispos);
+                LBLPred1.setText("<html><font color = green >" + prediction[0].getId() + " : " + prediction[0].getPrenom() + " " + prediction[0].getNom() + "</font></html>");
+                LBLPred2.setText("<html><font color = green >" + prediction[1].getId() + " : " + prediction[1].getPrenom() + " " + prediction[1].getNom() + "</font></html>");
+                LBLPred3.setText("<html><font color = green >" + prediction[2].getId() + " : " + prediction[2].getPrenom() + " " + prediction[2].getNom() + "</font></html>");
+            } catch (ParseException ex) {
+                Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        
             compMission.setModel(modelCompMission);
             entreprise.generateStatut(maMission);
         }
@@ -780,6 +833,18 @@ public class JDetailMission extends javax.swing.JFrame {
                 modelCompMission.addRow(new String[]{key.getId(), key.getLibelleFR(),value.toString()});
             
             }
+            
+            Employe[] prediction;
+            try {
+                eDispos.add(e);
+                prediction = maMission.prediction(eDispos);
+                LBLPred1.setText("<html><font color = green >" + prediction[0].getId() + " : " + prediction[0].getPrenom() + " " + prediction[0].getNom() + "</font></html>");
+                LBLPred2.setText("<html><font color = green >" + prediction[1].getId() + " : " + prediction[1].getPrenom() + " " + prediction[1].getNom() + "</font></html>");
+                LBLPred3.setText("<html><font color = green >" + prediction[2].getId() + " : " + prediction[2].getPrenom() + " " + prediction[2].getNom() + "</font></html>");
+            } catch (ParseException ex) {
+                Logger.getLogger(JDetailMission.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             compMission.setModel(modelCompMission);
             entreprise.generateStatut(maMission);
             removeEmp.setEnabled(false);
@@ -842,6 +907,7 @@ public class JDetailMission extends javax.swing.JFrame {
                 entreprise.saveMiss();
                 showMessageDialog(null, "Sauvegarde de la mission correctement effectuée !", "", INFORMATION_MESSAGE);
                 entreprise.generateStatut();
+                entreprise.generateRaf();
                 this.dispose();
                 
             } catch (IOException ex) {
@@ -1038,6 +1104,10 @@ public class JDetailMission extends javax.swing.JFrame {
     private javax.swing.JButton BTNRetour;
     private javax.swing.JButton BTNSave;
     private javax.swing.JLabel LBLID;
+    private javax.swing.JLabel LBLPred1;
+    private javax.swing.JLabel LBLPred2;
+    private javax.swing.JLabel LBLPred3;
+    private javax.swing.JLabel LBLPrediction;
     private javax.swing.JLabel LBLStatut;
     private javax.swing.JTextField TFMLibelle;
     private javax.swing.JTextField TFMnbMax;

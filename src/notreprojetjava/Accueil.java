@@ -385,7 +385,11 @@ public class Accueil extends javax.swing.JFrame {
             //frameDetailMission.setVisible(true);
             for(Mission maMission : entreprise.getListeMissions()){
                 if(maMission.getId().equals(codeMiss)){
-                    frameDetailMission = new JDetailMission(entreprise, maMission); 
+                    try { 
+                        frameDetailMission = new JDetailMission(entreprise, maMission);
+                    } catch (ParseException ex) {
+                        Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     frameDetailMission.setLocationRelativeTo(null);
                     frameDetailMission.setVisible(true);
                 }
@@ -500,7 +504,10 @@ public class Accueil extends javax.swing.JFrame {
         
         for(Competence c : entreprise.getListeCompetences()){
             cbFiltreComp.addItem(c.getLibelleFR());
-        }   
+        }
+        
+        entreprise.generateRaf();
+        entreprise.generateStatut();
     }//GEN-LAST:event_BTNRefreshActionPerformed
 
  
