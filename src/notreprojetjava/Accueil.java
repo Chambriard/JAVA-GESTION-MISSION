@@ -239,6 +239,7 @@ public class Accueil extends javax.swing.JFrame {
         jLabel13.setText("Statut des missions :");
 
         cbFiltreComp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aucune sélection" }));
+        cbFiltreComp.setEnabled(false);
 
         lblFiltre.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         lblFiltre.setText("Filtrer selon une compétence sélectionnée :");
@@ -420,15 +421,23 @@ public class Accueil extends javax.swing.JFrame {
     private void TPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TPaneMouseClicked
         
         if(TPane.getSelectedComponent().equals(jScrollPane1)) {
-            lblFiltre.setVisible(true);
-            cbFiltreComp.setVisible(true);
+            //lblFiltre.setVisible(true);
+            //cbFiltreComp.setVisible(true);
             ajoutMiss.setVisible(false);
             ajoutEmp.setVisible(true);
         } else {
-            lblFiltre.setVisible(false);
-            cbFiltreComp.setVisible(false);
-            ajoutMiss.setVisible(true);
-            ajoutEmp.setVisible(false);
+            if(TPane.getSelectedComponent().equals(jScrollPane3)) {
+                lblFiltre.setVisible(false);
+                cbFiltreComp.setVisible(false);
+                ajoutMiss.setVisible(false);
+                ajoutEmp.setVisible(false);
+            }
+            else {
+                lblFiltre.setVisible(false);
+                cbFiltreComp.setVisible(false);
+                ajoutMiss.setVisible(true);
+                ajoutEmp.setVisible(false);
+            }
         }
     }//GEN-LAST:event_TPaneMouseClicked
 

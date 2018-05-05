@@ -357,6 +357,7 @@
             <StringItem index="0" value="Aucune s&#xe9;lection"/>
           </StringArray>
         </Property>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

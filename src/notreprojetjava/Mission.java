@@ -215,7 +215,7 @@ public class Mission implements IEntite {
             case 1 :
                 raf += "<html><font color = red >";
                 if(retard){
-                    raf += "<strong>RETARD DE PLANNING</strong>";
+                    raf += "<strong>RETARD DE PLANNING - </strong>";
                 }
                 // Ajout de l'état de l'équipe si celle-ci n'est pas complète
                 if(eqNotComplete())
