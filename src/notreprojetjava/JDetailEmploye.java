@@ -76,6 +76,9 @@ public class JDetailEmploye extends javax.swing.JFrame {
             }
         }
         JTLesComp.setModel(modelLesComp);
+        
+        this.setResizable(false);
+        
         this.setDefaultCloseOperation(2);
     }
 
@@ -362,6 +365,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
     }//GEN-LAST:event_JTRemoveCompActionPerformed
 
     private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
+        /*
         switch(showConfirmDialog(null, "Attention, si vous quittez sans sauvegarder, toutes modifications sera perdue !\nVoulez-vous sauvegarder avant de quitter ?", "", YES_NO_CANCEL_OPTION)){                
             
             case JOptionPane.YES_OPTION :
@@ -385,7 +389,8 @@ public class JDetailEmploye extends javax.swing.JFrame {
                 }
                 break;
             case JOptionPane.NO_OPTION : this.dispose(); break;
-        }
+        }*/
+        this.dispose();
     }//GEN-LAST:event_BTNRetourActionPerformed
 
     private void JTLesCompMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTLesCompMouseClicked

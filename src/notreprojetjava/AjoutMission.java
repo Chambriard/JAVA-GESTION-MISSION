@@ -54,7 +54,7 @@ public class AjoutMission extends javax.swing.JFrame {
         compMission.setModel(modelCompMission);
         
         
-       
+       this.setResizable(false);
         
          //initComponents();
          this.setDefaultCloseOperation(2);

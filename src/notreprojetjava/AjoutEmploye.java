@@ -47,6 +47,9 @@ public class AjoutEmploye extends javax.swing.JFrame {
         tcm.getColumn(1).setPreferredWidth(250);
         
         erreur.setEditable(false);
+        
+        this.setResizable(false);
+        
         this.setDefaultCloseOperation(2);
     
     }

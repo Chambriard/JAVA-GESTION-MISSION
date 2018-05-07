@@ -157,6 +157,9 @@ public class JDetailMission extends javax.swing.JFrame {
         LBLPred3.setText("<html><font color = green >" + prediction[2].getId() + " : " + prediction[2].getPrenom() + " " + prediction[2].getNom() + "</font></html>");
         
         jtableLesCompetences.setModel(modelLesComp);
+        
+        this.setResizable(false);
+        
         this.setDefaultCloseOperation(2);
     }
 
@@ -917,7 +920,7 @@ public class JDetailMission extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNSaveActionPerformed
 
     private void BTNRetourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNRetourActionPerformed
-        switch(showConfirmDialog(null, "Attention, si vous quittez sans sauvegarder, toutes modifications sera perdue !\nVoulez-vous sauvegarder avant de quitter ?", "", YES_NO_CANCEL_OPTION)){                
+        /*switch(showConfirmDialog(null, "Attention, si vous quittez sans sauvegarder, toutes modifications sera perdue !\nVoulez-vous sauvegarder avant de quitter ?", "", YES_NO_CANCEL_OPTION)){                
             
             case JOptionPane.YES_OPTION :
                 maMission.setNbMaxEmp(Integer.parseInt(TFMnbMax.getText()));
@@ -939,8 +942,8 @@ public class JDetailMission extends javax.swing.JFrame {
                 }
                 break;
             case JOptionPane.NO_OPTION : this.dispose(); break;
-        }
-        //this.dispose();
+        }*/
+        this.dispose();
     }//GEN-LAST:event_BTNRetourActionPerformed
 
     private void spnCompStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnCompStateChanged
