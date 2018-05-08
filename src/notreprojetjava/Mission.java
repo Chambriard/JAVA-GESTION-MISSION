@@ -153,10 +153,10 @@ public class Mission implements IEntite {
     public String colorStatut(){
         String color = "";
         switch(statut){
-            case 1 : color = "<html><font color = red >∙</font></html>"; break;
-            case 2 : color = "<html><font color = orange >∙</font></html>"; break; 
-            case 3 : color = "<html><font color = green >∙</font></html>"; break; 
-            case 4 : color = "<html><font color = black >∙</font></html>"; break; 
+            case 1 : color = "<html><font color = red >25%</font></html>"; break;
+            case 2 : color = "<html><font color = orange >50%</font></html>"; break; 
+            case 3 : color = "<html><font color = green >75%</font></html>"; break; 
+            case 4 : color = "<html><font color = black >100%</font></html>"; break; 
         }
         return color;
     }
