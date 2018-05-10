@@ -74,7 +74,9 @@ public class Entreprise {
     public CSVFileCompetences getCVSFileCompetences(){
         return CSVFC;
     }
-
+    
+    
+    
     // Méthodes
     /**
      * Affiche la liste des Employés
@@ -251,6 +253,9 @@ public class Entreprise {
     public void delEmp(Employe e){
         listeEmployes.remove(e);
     }
+    public void delComp(Competence c){
+        listeCompetences.remove(c);
+    }
     
     /**
      * Crééer une mission et l'ajoute à la liste des missions de l'entreprise
@@ -267,6 +272,13 @@ public class Entreprise {
         listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin));
     }
     
+    
+    
+    
+    public void creerComp(String id, String libFr, String libAng) throws FileNotFoundException, ParseException{
+        //listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin, 1));
+        listeCompetences.add(new Competence(id, libFr,libAng));
+    }
     /**
      * Supprime une mission
      * @param m 

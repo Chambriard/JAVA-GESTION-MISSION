@@ -233,7 +233,11 @@ public class Accueil extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTableComp.setEnabled(false);
+        jTableComp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTableCompMousePressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableComp);
 
         TPane.addTab("tab3", jScrollPane3);
@@ -292,6 +296,11 @@ public class Accueil extends javax.swing.JFrame {
 
         ajoutComp.setText("Ajouter une compétence");
         ajoutComp.setPreferredSize(new java.awt.Dimension(170, 32));
+        ajoutComp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajoutCompActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -565,6 +574,34 @@ public class Accueil extends javax.swing.JFrame {
         entreprise.generateRaf();
         entreprise.generateStatut();
     }//GEN-LAST:event_BTNRefreshActionPerformed
+
+    private void ajoutCompActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajoutCompActionPerformed
+        // TODO add your handling code here:
+        AjoutComp framCreerComp = null ;
+        framCreerComp = new AjoutComp(entreprise);
+        framCreerComp.setLocationRelativeTo(null);
+        framCreerComp.setVisible(true);
+    }//GEN-LAST:event_ajoutCompActionPerformed
+
+    private void jTableCompMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCompMousePressed
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){
+            JDetailComp frameDetailComp = null ;
+            int Ligne = jTableComp.getSelectedRow();
+            int colonne = 0;
+            String id = (String) jTableComp.getValueAt(Ligne, colonne);
+            //frameDetailMission = new JDetailMission(entreprise, entreprise.recupMissById(codeMiss));
+            //frameDetailMission.setVisible(true);
+            for(Competence c : entreprise.getListeCompetences()){
+                if(c.getId().equals(id)){
+                    frameDetailComp = new JDetailComp(entreprise, c);
+                    frameDetailComp.setLocationRelativeTo(null);
+                    frameDetailComp.setVisible(true);
+                }
+            }
+
+        }
+    }//GEN-LAST:event_jTableCompMousePressed
 
  
     /**

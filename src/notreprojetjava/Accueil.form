@@ -301,8 +301,10 @@
                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableCompMousePressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -426,6 +428,9 @@
           <Dimension value="[170, 32]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ajoutCompActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
