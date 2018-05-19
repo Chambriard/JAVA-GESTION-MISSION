@@ -31,7 +31,7 @@ public class Mission implements IEntite {
     ArrayList<Employe> equipe;
     
     // Constructeur
-    //public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin, int statut) throws ParseException{
+ 
     public Mission(String id, String libelle, int nbMaxEmp, String dateDeb, String dateFin) throws ParseException{
         this.id = id;
         this.libelle = libelle;
@@ -116,7 +116,9 @@ public class Mission implements IEntite {
     }
         
     // Méthodes
-
+    /**
+    * Permet d'afficher les compétence requise pour une mission 
+    */
     public void afficherCompReq(){
         System.out.println("Compétences requises pour la mission " + id + " - " + libelle + " : \n");
         for (Map.Entry c : compRemp.entrySet()){
@@ -124,14 +126,24 @@ public class Mission implements IEntite {
             System.out.println("Nombre de personnes requises : " + c.getValue() + ".");
         }
     }
-    
+     /**
+     * Permet d'afficher l'équipe de la mission
+     * @param 
+     * @return  
+     * @throws  
+     */
     public void afficherEquipe(){
         System.out.println("Equipe de la mission " + id + " - " + libelle + " : \n");
         for(Employe e : equipe){
             System.out.println(e.toString());
         }
     }
-    
+    /**
+     * Redéfinition de la méthode toString pour mettre en forme l'affichage
+     * @param 
+     * @return  string chaine
+     * @throws  
+     */
     public String toString(){
         DateConvert dc = new DateConvert();
         String dateD = dc.convertDateStr(this.dateDeb);
@@ -148,7 +160,7 @@ public class Mission implements IEntite {
     /**
      * Retourne un code html pour mettre la pastille en couleur selon le statut
      * @param s
-     * @return 
+     * @return  string color
      */
     public String colorStatut(){
         String color = "";
@@ -161,7 +173,12 @@ public class Mission implements IEntite {
         return color;
     }
     
-    
+    /**
+     * permet de changer le statut de la mission
+     * @param 
+     * @return  
+     * @throws  
+     */
     public void changeStatut(){
         switch (statut){
             case 1 :
@@ -178,7 +195,12 @@ public class Mission implements IEntite {
                 break;
         }
     }
-    
+    /**
+     * return le numéro idiquant le statut de la mission
+     * @param 
+     * @return string st
+     * @throws  
+     */
     public int generateStatut(){
         int st = 1;
         System.out.print(equipe.size());
@@ -243,14 +265,6 @@ public class Mission implements IEntite {
             case 4 : raf = "<html><strong><font color = black >Mission Terminée</strong></font></html>"; break;
                 
             default : raf = "<html><strong><font color = green >OK ✔</strong></font></html>"; break;
-            /*case 2 :
-                raf = "Mission planifiée"; break;
-            
-            case 3 :
-                raf = "Mission en cours"; break;
-            
-            case 4 :
-                raf = "Mission terminée"; break;*/
         }
         
     }
@@ -299,6 +313,12 @@ public class Mission implements IEntite {
         }
     }
     
+    /**
+     * Permet de savoir si l'équipe est complet ou non
+     * @param 
+     * @return boolean   
+     * @throws  
+     */
     public boolean eqNotComplete(){
         if(equipe.size() < nbMaxEmp)
             return true;
@@ -343,7 +363,12 @@ public class Mission implements IEntite {
             }
         }
     }
-    
+    /**
+     * Permet de retoruner les 3 emploiés les plus pertinant pour une mission
+     * @param  ArrayList<Employe> listeEmployes
+     * @return  Employe[] prediction
+     * @throws  ParseException
+     */
     public Employe[] prediction (ArrayList<Employe> listeEmployes) throws ParseException{
 
         HashMap<Employe, Integer> compCommunes = new HashMap<Employe, Integer>();
@@ -425,7 +450,7 @@ public class Mission implements IEntite {
     }
     
     
-    
+   
     public boolean checkCompRemp(){
         boolean check = true;
         for (Map.Entry c : compRemp.entrySet()){
@@ -434,12 +459,18 @@ public class Mission implements IEntite {
         }
         return check;
     }
-    
+    /**
+     * Retourne la date couverte par une mission au format CSV
+     */
     public String formatCSV(){
         DateConvert dc = new DateConvert();
         return id + ";" + libelle + ";" + nbMaxEmp + ";" + dc.convertDateStr(dateDeb) + ";" + dc.convertDateStr(dateFin) + ";" + statut + "\n";
     }
-    
+    /**
+     * Retourne les employé de la missio au format CSV
+     * @param  
+     * @return  String res
+     */
     public String formatCSVEmp(){
         String res = id + ";";
         for(Employe e : equipe){
@@ -448,7 +479,11 @@ public class Mission implements IEntite {
         res += "\n";
         return res;
     }
-    
+    /**
+     * Retourne les competences de la mission au format CSV
+     * @param  
+     * @return  String res
+     */
     public String formatCSVComp(){
         String res = id + ";";
         for (Map.Entry c : compReq.entrySet()){

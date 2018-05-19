@@ -34,6 +34,10 @@ public class Employe implements IEntite {
     }
     
     // Accesseurs
+    /**
+     * accesseur id
+     * @return String id
+     */
     public String getId(){
         return id ;
     }
@@ -100,7 +104,7 @@ public class Employe implements IEntite {
     
     /**
      * Description de l'employé
-     * @return 
+     * @return String chaine
      */
     public String toString(){
         DateConvert dc = new DateConvert();
@@ -113,7 +117,7 @@ public class Employe implements IEntite {
     
     /**
      * Renvoie l'employé au format CSV
-     * @return 
+     * @return String
      */
     public String formatCSV(){
         DateConvert dc = new DateConvert();
@@ -123,7 +127,7 @@ public class Employe implements IEntite {
     
     /**
      * Renvoie les compétences de l'employé au format CSV
-     * @return 
+     * @return String res
      */
     public String formatCSVComp(){
         String res = id + ";";

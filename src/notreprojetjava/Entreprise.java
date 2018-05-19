@@ -128,10 +128,14 @@ public class Entreprise {
     public void afficherMissEmp(Mission m){
         m.afficherEquipe();
     }
-
+    /**
+     * permet de récupérer touts les id des competences que détient un employé
+     * @param  Employe e
+     * @return  String idComp
+     * @throws  ParseException
+     */
     public String getIdCompByIdEmp(Employe e){
         String idComp = "Compétences : ";
-        //System.out.println("Compétences de " + prenom + " " + nom + " : \n");
         for(Competence c : e.getCompetences()){
             idComp += c.getId() + "   ";
         }
@@ -141,7 +145,7 @@ public class Entreprise {
     /**
      * Récupère l'id le plus grand de la liste des Employés
      * Utile pour attribuer un ID automatique à un nouvel employé
-     * @return 
+     * @return String
      */
     public int recupIdMaxEmp(){
         if(this.listeEmployes.isEmpty())
@@ -154,8 +158,8 @@ public class Entreprise {
     
     /**
      * Récupère un employé selon un ID
-     * @param id
-     * @return 
+     * @param String id
+     * @return String res
      */
     public Employe recupEmpById(String id){
         boolean trouve = false;
@@ -173,7 +177,7 @@ public class Entreprise {
     
     /**
      * Récupère une compétence selon un ID
-     * @param id
+     * @param String id
      * @return 
      */
     public Competence recupCompById(String id){
@@ -192,7 +196,7 @@ public class Entreprise {
     
     /**
      * Récupère une mission selon son ID
-     * @param id
+     * @param String id
      * @return 
      */
     public Mission recupMissById(String id){
@@ -211,6 +215,12 @@ public class Entreprise {
         return res;
     }
     
+    /**
+     * Pertmet d'afficher tous les statut des missions
+     * @param  
+     * @return  
+     * @throws 
+     */
     public void generateStatut(){
         for(Mission m : listeMissions){
             m.generateStatut();
@@ -218,6 +228,7 @@ public class Entreprise {
         }
     }
     
+   
     public void generateRaf(){
         for(Mission m : listeMissions){
             m.generateRaf();
@@ -225,6 +236,11 @@ public class Entreprise {
         }
     }
     
+    /**
+     * Permet de retrouver le statut d'une mission
+     * @param  Mission m
+     * @return  string statut
+     */
     public void generateStatut(Mission m){
         
             m.generateStatut();
@@ -274,14 +290,21 @@ public class Entreprise {
     
     
     
-    
+    /**
+     * Crééer une Competence et l'ajoute à la liste des Competences de l'entreprise
+     * @param String id
+     * @param String libFR
+     * @param String libAng
+     * @throws FileNotFoundException
+     * @throws ParseException 
+     */
     public void creerComp(String id, String libFr, String libAng) throws FileNotFoundException, ParseException{
         //listeMissions.add(new Mission(id, libelle, nbMaxEmp, dateDeb, dateFin, 1));
         listeCompetences.add(new Competence(id, libFr,libAng));
     }
     /**
      * Supprime une mission
-     * @param m 
+     * @param Mission m 
      */
     public void delMission(Mission m){
         listeMissions.remove(m);
@@ -339,6 +362,13 @@ public class Entreprise {
     public void delCompMiss(Mission m, Competence c){
         m.delCompMiss(c);
     }
+    
+    /**
+     * Supprime une competence requise de la mission passé en paramêtre
+     * @param Mission m
+     * @param Competence c
+     * @param int r
+     */
     public void delCompRequMiss(Mission m, Competence c, int r){
         for(Map.Entry<Competence,Integer > entry : m.getCompReq().entrySet()) {
             Competence key = entry.getKey();

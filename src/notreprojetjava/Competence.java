@@ -38,19 +38,19 @@ public class Competence implements IEntite {
     
     // Méthodes
     
-    // Ce toString est nécessaire pour la sauvegarde du fichier missions_competences
+    /**
+    * Redéfinition de la méthode toString()
+    * @return String 
+    */
     public String toString(){
         return id;
         //return id + "\nLibellé Anglais : " + libelleEN + "\nLibellé Français : " + libelleFR;
     }
     
-    /*public String returnFormat(){
-        return id + ";" + libelleEN + ";" + libelleFR + ";";
-    }*/
-    
+   
     /**
      * Retourne la compétence au format CSV.
-     * @return 
+     * @return String 
      */
     public String formatCSV(){
         return id + ";" + libelleEN + ";" + libelleFR + ";\n";

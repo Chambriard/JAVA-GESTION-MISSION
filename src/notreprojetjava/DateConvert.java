@@ -24,7 +24,7 @@ public class DateConvert {
     /**
      * Convertie une date extraite d'un fichier CSV en format Date
      * @param date
-     * @return
+     * @return date 
      * @throws ParseException 
      */
     public Date convertStrDate(String date) throws ParseException{
@@ -35,7 +35,7 @@ public class DateConvert {
     /**
      * Convertie une Date en String afin de la sauvegarder dans un fichier CSV
      * @param date
-     * @return 
+     * @return date
      */
     public String convertDateStr(Date date){
         DateFormat shortDateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
