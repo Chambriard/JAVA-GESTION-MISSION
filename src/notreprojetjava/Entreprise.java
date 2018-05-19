@@ -130,9 +130,8 @@ public class Entreprise {
     }
     /**
      * permet de récupérer touts les id des competences que détient un employé
-     * @param  Employe e
+     * @param e
      * @return  String idComp
-     * @throws  ParseException
      */
     public String getIdCompByIdEmp(Employe e){
         String idComp = "Compétences : ";
@@ -158,7 +157,7 @@ public class Entreprise {
     
     /**
      * Récupère un employé selon un ID
-     * @param String id
+     * @param id
      * @return String res
      */
     public Employe recupEmpById(String id){
@@ -177,7 +176,7 @@ public class Entreprise {
     
     /**
      * Récupère une compétence selon un ID
-     * @param String id
+     * @param id
      * @return 
      */
     public Competence recupCompById(String id){
@@ -196,7 +195,7 @@ public class Entreprise {
     
     /**
      * Récupère une mission selon son ID
-     * @param String id
+     * @param id
      * @return 
      */
     public Mission recupMissById(String id){
@@ -217,9 +216,6 @@ public class Entreprise {
     
     /**
      * Pertmet d'afficher tous les statut des missions
-     * @param  
-     * @return  
-     * @throws 
      */
     public void generateStatut(){
         for(Mission m : listeMissions){
@@ -238,8 +234,7 @@ public class Entreprise {
     
     /**
      * Permet de retrouver le statut d'une mission
-     * @param  Mission m
-     * @return  string statut
+     * @param m
      */
     public void generateStatut(Mission m){
         
@@ -292,9 +287,9 @@ public class Entreprise {
     
     /**
      * Crééer une Competence et l'ajoute à la liste des Competences de l'entreprise
-     * @param String id
-     * @param String libFR
-     * @param String libAng
+     * @param id
+     * @param libFr
+     * @param libAng
      * @throws FileNotFoundException
      * @throws ParseException 
      */
@@ -304,7 +299,7 @@ public class Entreprise {
     }
     /**
      * Supprime une mission
-     * @param Mission m 
+     * @param m 
      */
     public void delMission(Mission m){
         listeMissions.remove(m);
@@ -365,9 +360,9 @@ public class Entreprise {
     
     /**
      * Supprime une competence requise de la mission passé en paramêtre
-     * @param Mission m
-     * @param Competence c
-     * @param int r
+     * @param m
+     * @param c
+     * @param r
      */
     public void delCompRequMiss(Mission m, Competence c, int r){
         for(Map.Entry<Competence,Integer > entry : m.getCompReq().entrySet()) {

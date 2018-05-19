@@ -128,9 +128,6 @@ public class Mission implements IEntite {
     }
      /**
      * Permet d'afficher l'équipe de la mission
-     * @param 
-     * @return  
-     * @throws  
      */
     public void afficherEquipe(){
         System.out.println("Equipe de la mission " + id + " - " + libelle + " : \n");
@@ -140,9 +137,7 @@ public class Mission implements IEntite {
     }
     /**
      * Redéfinition de la méthode toString pour mettre en forme l'affichage
-     * @param 
-     * @return  string chaine
-     * @throws  
+     * @return chaine 
      */
     public String toString(){
         DateConvert dc = new DateConvert();
@@ -159,8 +154,7 @@ public class Mission implements IEntite {
 
     /**
      * Retourne un code html pour mettre la pastille en couleur selon le statut
-     * @param s
-     * @return  string color
+     * @return color
      */
     public String colorStatut(){
         String color = "";
@@ -175,9 +169,6 @@ public class Mission implements IEntite {
     
     /**
      * permet de changer le statut de la mission
-     * @param 
-     * @return  
-     * @throws  
      */
     public void changeStatut(){
         switch (statut){
@@ -197,9 +188,7 @@ public class Mission implements IEntite {
     }
     /**
      * return le numéro idiquant le statut de la mission
-     * @param 
-     * @return string st
-     * @throws  
+     * @return st
      */
     public int generateStatut(){
         int st = 1;
@@ -271,8 +260,8 @@ public class Mission implements IEntite {
     
     /**
      * Permet l'ajout d'une compétence nécessaire à la mission
-     * @param comp
-     * @param nb 
+     * @param c
+     * @param nbReq 
      */
     public void addCompMiss(Competence c, Integer nbReq){
         if(!compRemp.containsKey(c)){
@@ -298,8 +287,8 @@ public class Mission implements IEntite {
     
     /**
      * Modifie le nombre d'itération d'une compétence nécessaire
-     * @param comp
-     * @param nb 
+     * @param c
+     * @param nbReq 
      */
     public void modifNbComp(Competence c, Integer nbReq){
         compRemp.put(c, nbReq);
@@ -315,9 +304,7 @@ public class Mission implements IEntite {
     
     /**
      * Permet de savoir si l'équipe est complet ou non
-     * @param 
      * @return boolean   
-     * @throws  
      */
     public boolean eqNotComplete(){
         if(equipe.size() < nbMaxEmp)
@@ -365,7 +352,7 @@ public class Mission implements IEntite {
     }
     /**
      * Permet de retoruner les 3 emploiés les plus pertinant pour une mission
-     * @param  ArrayList<Employe> listeEmployes
+     * @param listeEmployes
      * @return  Employe[] prediction
      * @throws  ParseException
      */
@@ -468,7 +455,6 @@ public class Mission implements IEntite {
     }
     /**
      * Retourne les employé de la missio au format CSV
-     * @param  
      * @return  String res
      */
     public String formatCSVEmp(){
@@ -481,7 +467,6 @@ public class Mission implements IEntite {
     }
     /**
      * Retourne les competences de la mission au format CSV
-     * @param  
      * @return  String res
      */
     public String formatCSVComp(){
