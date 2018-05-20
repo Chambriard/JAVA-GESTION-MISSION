@@ -1,7 +1,6 @@
 A.1.;IS and Business Strategy Alignment;Informatique et alignement stratégique métier  ;
 A.2.;Service Level Management;Gestion des niveaux de service  ;
 A.3.;Business Plan Development;Développement du plan d’activités ;
-A.4.;Product or Project Planning;Planification des produits ou des projets;
 A.5.;Architecture Design;Conception de l’architecture ;
 A.6.;Application Design;Conception des applications ;
 A.7.;Technology Watching;Veille technologique ;
@@ -37,3 +36,4 @@ E.9.;IT Governance; Gouvernance informatique ;
 C.5.;Bonjour ;Hello ;
 C.5.;Bonjour le monde;Hello world;
 C.6.;Hello world;Bonjour le monde;
+A.4.;Product or Project Planning;Planification des produits ou des projets;

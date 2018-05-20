@@ -11,12 +11,15 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.YES_NO_CANCEL_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import static notreprojetjava.JDetailMission.maMission;
 
@@ -80,6 +83,10 @@ public class JDetailEmploye extends javax.swing.JFrame {
         this.setResizable(false);
         
         this.setDefaultCloseOperation(2);
+        setBackground(new java.awt.Color(255, 255, 255)); 
+        
+        Icon imgSave = new ImageIcon("img/save.png");
+      BTNSave.setIcon(imgSave);
     }
 
     /**
@@ -452,12 +459,7 @@ public class JDetailEmploye extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            javax.swing.UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(JDetailEmploye.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

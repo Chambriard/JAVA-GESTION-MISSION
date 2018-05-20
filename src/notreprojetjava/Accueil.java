@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -108,6 +109,15 @@ public class Accueil extends javax.swing.JFrame {
         
         ImageIcon img = new ImageIcon("img/icone.png");
         this.setIconImage(img.getImage());
+        
+        Icon imgRefresh = new ImageIcon("img/refresh.png");
+        BTNRefresh.setIcon(imgRefresh);
+        
+        Icon imgAjout = new ImageIcon("img/ajout.png");
+        ajoutMiss.setIcon(imgAjout);
+        ajoutEmp.setIcon(imgAjout);
+        ajoutComp.setIcon(imgAjout);
+        
         
         this.setDefaultCloseOperation(2);
     }
@@ -282,7 +292,6 @@ public class Accueil extends javax.swing.JFrame {
         });
 
         BTNRefresh.setBackground(new java.awt.Color(117, 169, 255));
-        BTNRefresh.setText("Actualiser");
         BTNRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BTNRefreshActionPerformed(evt);
